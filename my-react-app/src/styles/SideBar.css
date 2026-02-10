@@ -1,0 +1,11 @@
+.Side{
+    width: 200px;
+    height: fit-content;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+}
+.Side ul{
+    display: flex;
+    flex-direction: column;
+}
