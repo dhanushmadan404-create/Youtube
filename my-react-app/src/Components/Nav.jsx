@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import logo from '../assets/react.svg';
 import "../styles/nav.css";
+import Btn from './Btn';
 function Nav() {
   const[On,Seton]=useState(true)
  
@@ -11,8 +12,8 @@ function Nav() {
 
         <ul>
             <li><img src={logo} alt="Logo" /></li>
-            <li>Home</li>
-            <li>Following</li>
+            <li><Btn Content="Home"/></li>
+            <li><Btn Content="Following"/></li>
             <li><button onClick={()=>{Seton(On==true?false:true)}}>⋮</button></li>
             
         {On && (
@@ -34,7 +35,7 @@ function Nav() {
             <input type="text" placeholder="Search" />
      </div>
    <div>
-            <b>Login</b>
+            <Btn Content="Login"/>
    </div>
       
     </nav>

@@ -1,11 +1,40 @@
-.Side{
-    width: 200px;
-    height: fit-content;
-    border: 2px solid black;
-    display: flex;
-    flex-direction: column;
+.Side {
+  width: 60px;
+  height: 100vh;
+  background: #111;
+  color: white;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  padding: 10px;
+  border: 3px solid rgb(92, 43, 153);
 }
-.Side ul{
-    display: flex;
-    flex-direction: column;
+
+.Side.active {
+  width: 220px;
+}
+
+.Side button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+
+.Side div b,
+.Side h1 {
+  display: flex;
+  align-items: start;
+
+  gap: 28px;
+  overflow: hidden;
+  
+}
+
+.Side div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
