@@ -1,0 +1,25 @@
+.scroll-wrapper {
+    @apply overflow-hidden w-[100dvw] bg-[black]  py-[10px]
+
+}
+
+.scroll-content {
+    @apply flex gap-[20px];
+    animation: scroll 15s linear infinite;
+
+}
+
+.scroll-content img {
+    @apply w-[400px] h-[250px] object-cover rounded-[10px]
+
+}
+
+/* Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  80%{
+    transform: translateX(-50%);
+  }
+}

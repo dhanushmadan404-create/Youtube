@@ -1,0 +1,116 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Main container */
+/* Small left spacing, no right gap */
+.video-container {
+  width: calc(90% - 60px);
+ margin-left: 60px;
+  /* margin-top: 30px; */ 
+}
+
+/* Video section */
+.video-wrapper {
+  width: 100%;
+}
+
+.video-wrapper video {
+  width: 100%;
+  max-height: 600px;
+  border-radius: 12px;
+  background-color: black;
+}
+
+/* Video details */
+.video-details {
+  margin-top: 20px;
+  width: 70%;
+}
+
+/* Title */
+.video-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Channel + Buttons Row */
+.channel-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Channel info */
+.channel-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Channel logo */
+.channel-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Channel text */
+.channel-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.channel-info p {
+  font-size: 14px;
+  color: gray;
+}
+
+/* Subscribe button */
+.subscribe-btn {
+  margin-left: 15px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 20px;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background-color: #333;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.action-buttons button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background-color: #efefef;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.action-buttons button:hover {
+  background-color: #ddd;
+}

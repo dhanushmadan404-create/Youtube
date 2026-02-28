@@ -30,8 +30,12 @@ nav ul {
 nav ul li a {
   text-decoration: none;
   color: #333;
+  cursor: pointer;
 }
-
+#pop li{
+  
+  cursor: pointer;  
+}
 nav input {
   padding: 6px 10px;
   width: 300px;

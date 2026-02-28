@@ -3,7 +3,7 @@ import logo from '../assets/react.svg';
 import "../styles/nav.css";
 import Btn from './Btn';
 function Nav() {
-  const[On,Seton]=useState(true)
+  const[On,Seton]=useState(false)
  
 
   return (
@@ -16,18 +16,18 @@ function Nav() {
             <li><Btn Content="Following"/></li>
             <li><button onClick={()=>{Seton(On==true?false:true)}}>⋮</button></li>
             
+            <li className='Menu'>
         {On && (
-          <li>
             <ul id="pop">
               <li>About</li>
-              <li>Create video</li>
+          
               <li>Privacy Center</li>
               <li>Report</li>
               <li>Setting</li>
               <li>Log Out</li>
             </ul>
-          </li>
         )}
+        </li>
         </ul>
        </div>
      <div>
@@ -35,6 +35,7 @@ function Nav() {
             <input type="text" placeholder="Search" />
      </div>
    <div>
+             <Btn Content="Create Video"/>
             <Btn Content="Login"/>
    </div>
       

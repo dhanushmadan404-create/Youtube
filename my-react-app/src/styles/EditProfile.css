@@ -1,0 +1,155 @@
+/* EditProfile.css */
+
+:root {
+  --border-color: #e5e5e5;
+  --text-main: #0f0f0f;
+  --text-secondary: #606060;
+  --bg-color: #ffffff;
+  --btn-hover: #f2f2f2;
+}
+
+.edit-profile {
+  font-family: "Roboto", Arial, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: var(--text-main);
+}
+
+/* Header Section */
+.edit-header {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 24px;
+}
+
+.header-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.header-actions h2 {
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 3px solid #0f0f0f; /* Active tab underline */
+  padding-bottom: 10px;
+  margin-bottom: -11px;
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 18px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancel-btn {
+  background: transparent;
+  color: var(--text-main);
+  margin-right: 8px;
+}
+
+.cancel-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+.save-btn {
+  background-color: #0f0f0f;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #272727;
+}
+
+.upload-btn {
+  background-color: #f2f2f2;
+  color: #065fd4; /* Blue link style typical of YouTube */
+  margin-top: 10px;
+}
+
+/* Section Layouts (Flexbox) */
+.image-section {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  align-items: flex-start;
+}
+
+.image-info {
+  flex: 1;
+}
+
+.image-info p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 450px;
+}
+
+/* Image styling */
+.banner-image {
+  width: 240px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+}
+
+.profile-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%; /* Circle for profile */
+  object-fit: cover;
+  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+}
+
+/* Form Groups */
+.form-group {
+  margin-top: 40px;
+  max-width: 700px;
+}
+
+.form-group h2 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.form-group p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.form-input, 
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-input:focus, 
+.form-textarea:focus {
+  border-color: #065fd4;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}

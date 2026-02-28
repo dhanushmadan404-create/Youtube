@@ -1,0 +1,8 @@
+.Cate {
+  @apply w-[200px] h-[300px] rounded-[10px] p-[20px] bg-[black]
+   text-[white] flex flex-col gap-[25px] items-center  border-[purple] 
+   border-[2px] shadow-[0_0_20px_rgba(106,13,173,0.9)] rounded-[5px];
+}
+.Cate img {
+  @apply h-[200px]  border-[purple] border-[2px] shadow-[0_0_20px_rgba(106,13,173,0.9)] rounded-[5px];
+}
