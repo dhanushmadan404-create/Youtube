@@ -40,7 +40,6 @@ const Data={
     {
         id: 5,
         title: "React JS Tutorial for Beginners",
-       
         views: 850000,
         category: "Education",
         thumbnail: "https://img.youtube.com/vi/x4rFhThSX04/maxresdefault.jpg",
@@ -50,7 +49,7 @@ const Data={
     {
         id: 6,
         title: "React JS Intro & Setup",
-       
+        
         views: 720000,
         category: "Education",
         thumbnail: "https://img.youtube.com/vi/SqcY0GlETPk/maxresdefault.jpg",
