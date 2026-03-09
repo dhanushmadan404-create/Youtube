@@ -1,3 +1,13 @@
+import Image1 from '../assets/Image/annesana.png'
+import Image2 from '../assets/Image/break_fast.jpg'
+import Image3 from '../assets/Image/default_food.png'
+import Image4 from '../assets/Image/dinner.webp'
+import Image5 from '../assets/Image/drinking.jpg'
+import Image6 from '../assets/Image/image.png'
+import Image7 from '../assets/Image/layout.png'
+import Image8 from '../assets/Image/location.png'
+import Image9 from '../assets/Image/lunch.avif'
+
 const Data={
     video:[
         {
@@ -5,7 +15,7 @@ const Data={
             title:"React JS Crash Course",
             views:1000,
             category:"Education",
-            thumbnail:"https://img.youtube.com/vi/sBws8MSXN7A/maxresdefault.jpg",
+            thumbnail:Image1,
             videoUrl:"https://www.youtube.com/watch?v=sBws8MSXN7A",
             userId:1,
         },
@@ -14,7 +24,7 @@ const Data={
         title: "React Tutorial for Beginners",    
         views: 1500000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/QFaFIcGhPoM/maxresdefault.jpg",
+        thumbnail: Image2,
         videoUrl: "https://www.youtube.com/watch?v=QFaFIcGhPoM",
         userId: 2,
     },
@@ -23,17 +33,17 @@ const Data={
         title: "React Native Crash Course",      
         views: 1800000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/0-S5a0eXPoc/maxresdefault.jpg",
+        thumbnail: Image3,
         videoUrl: "https://www.youtube.com/watch?v=0-S5a0eXPoc",
         userId: 3,
     },
     {
         id: 4,
-        title: "React JS Full Course – Beginners to Advanced",
+        title: "React JS Full Course Beginners to Advanced",
        
         views: 900000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/x4rFhThSX04/maxresdefault.jpg",
+        thumbnail: Image4,
         videoUrl: "https://www.youtube.com/watch?v=x4rFhThSX04",
         userId: 4,
     },
@@ -42,27 +52,27 @@ const Data={
         title: "React JS Tutorial for Beginners",
         views: 850000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/x4rFhThSX04/maxresdefault.jpg",
+        thumbnail:Image5,
         videoUrl: "https://www.youtube.com/watch?v=x4rFhThSX04",
         userId: 5,
     },
     {
         id: 6,
         title: "React JS Intro & Setup",
-        
+
         views: 720000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/SqcY0GlETPk/maxresdefault.jpg",
+        thumbnail: Image6,
         videoUrl: "https://www.youtube.com/watch?v=SqcY0GlETPk",
         userId: 6,
     },
     {
         id: 7,
-        title: "React Tutorial #1 – Introduction",
+        title: "React Tutorial #1  Introduction",
 
         views: 500000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/QFaFIcGhPoM/maxresdefault.jpg",
+        thumbnail:Image7,
         videoUrl: "https://www.youtube.com/watch?v=QFaFIcGhPoM",
         userId: 7,
     },
@@ -72,7 +82,7 @@ const Data={
        
         views: 640000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/TtPXvEcE11E/maxresdefault.jpg",
+        thumbnail: Image8,
         videoUrl: "https://www.youtube.com/watch?v=TtPXvEcE11E",
         userId: 8,
     },
@@ -82,19 +92,11 @@ const Data={
        
         views: 580000,
         category: "Education",
-        thumbnail: "https://img.youtube.com/vi/LlvBzyy-558/maxresdefault.jpg",
+        thumbnail: Image9,
         videoUrl: "https://www.youtube.com/watch?v=LlvBzyy-558",
         userId: 9,
     },
-    {
-        id: 10,
-        title: "React Router v6 Crash Course",
-        views: 620000,
-        category: "Education",
-        thumbnail: "https://img.youtube.com/vi/0cSVuySEB0o/maxresdefault.jpg",
-        videoUrl: "https://www.youtube.com/watch?v=0cSVuySEB0o",
-        userId: 10,
-    }
+  
     ],
   user:[
     {
@@ -184,4 +186,4 @@ const Data={
   ]
 }
 
-export default Data 
+export { Data} 

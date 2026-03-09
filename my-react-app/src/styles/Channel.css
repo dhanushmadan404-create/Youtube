@@ -1,0 +1,10 @@
+.ChannelContainer{
+    @apply text-[white] w-auto h-auto p-[10px] flex flex-col  gap-[30px] items-center
+}
+.ChannelImg{
+    @apply w-[100px] h-[100px] rounded-[60%]     shadow-[0_0_20px_rgba(106,13,173,0.9)] hover:shadow-[0_0_20px_5px_rgba(106,13,173,1)]
+}
+.Title{
+    @apply text-[white] w-auto h-auto hover:border-b-[2px] hover:border-[rgba(106,13,173,0.9)] border-b-[2px] border-[black]
+   
+}

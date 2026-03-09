@@ -1,0 +1,7 @@
+.CommentCard{
+    @apply w-[75dvw] h-[20dvh] border-[#b9babd] border-[2px] shadow-[0_0_20px_rgba(106,13,173,0.9)] rounded-[5px]
+    flex flex-col gap-[10px] p-[10px] overflow-y-auto
+}
+.CommentCard div{
+    @apply flex items-center gap-[10px]
+}

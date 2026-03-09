@@ -1,5 +1,5 @@
 import React from 'react'
-import Data from '../Backend/Data.json'
+import {Data} from '../Backend/Data'
 
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {

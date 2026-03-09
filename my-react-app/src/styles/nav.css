@@ -1,78 +1,35 @@
-* {
-  box-sizing: border-box;
-}
-
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-}
-
-nav {
-  width: 100vw;
+.NavContainer{
+  width: 100%;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px 10px 10px;
+  position: fixed;
+  top: 0%;
+  background-color: black;
+  z-index: 10;
 }
-
-nav ul {
-  list-style: none;
+.Start{
+  display: flex;
+  gap: 10px;
+}
+.SubMenu{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  /* border: purple solid 3px ; */
+  gap: 10px;
+  position: fixed;
+  left: 20%;
+  top: 60px;
+}
+.Mid{
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0;
-  margin: 0;
 }
-
-nav ul li a {
-  text-decoration: none;
-  color: #333;
-  cursor: pointer;
-}
-#pop li{
-  
-  cursor: pointer;  
-}
-nav input {
-  padding: 6px 10px;
-  width: 300px;
-}
-
-nav b {
-  padding: 6px 12px;
-  background-color: black;
-  color: white;
-  border-radius: 10px;
-}
-nav li ul{
-  width: 8rem;
-  gap: 6px;
-  background-color: white;
-  height: fit-content;
-  border: #333 solid 2px ;
-  outline-width:5px;
-  outline-style: groove;
-  outline-color: black;
- display: flex;
- flex-direction: column;
- position: absolute;
-   transition: width 0.3s ease;
- border-radius:20px 20px 0px 0px;
-
-}
-nav li .show{
-    visibility: visible;
-}
-nav li ul li{
-  transition: all;
-  border-bottom: #333 solid 2px;
-}
-nav li ul li:last-child{
-  border: #333 groove 2px;
-  padding: 0px 30px 0px 30px;
-  background-color: black;
-  color: #fff;
+.End{
+    display: flex;
+  align-items: center;
+  gap: 10px;
 }

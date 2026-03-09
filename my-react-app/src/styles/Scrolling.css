@@ -1,10 +1,10 @@
 .scroll-wrapper {
-    @apply overflow-hidden w-[100dvw] bg-[black]  py-[10px]
+    @apply overflow-hidden w-[100dvw] bg-[black]  p-[10px]  shadow-[-4px_-4px_20px_rgba(0.9,0.9,0.9,0.9)] rounded-[10px] ;
 
 }
 
 .scroll-content {
-    @apply flex gap-[20px];
+    @apply flex gap-[20px]; 
     animation: scroll 15s linear infinite;
 
 }
@@ -16,6 +16,7 @@
 
 /* Animation */
 @keyframes scroll {
+  
   0% {
     transform: translateX(0);
   }

@@ -1,0 +1,3 @@
+.Home{
+    @apply flex flex-col gap-[10px] flex-3;
+}

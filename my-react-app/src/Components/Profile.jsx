@@ -1,11 +1,10 @@
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
+import { TextField, InputAdornment } from "@mui/material";
 import "../styles/Profile.css";
 import profile from "../assets/react.svg"
 import Banner from "../assets/profile.png"
-
+import Btn from './Btn';
 function Profile() {
   return (
     <div className="profile">
@@ -36,17 +35,49 @@ function Profile() {
 
       {/* Bottom Section */}
       <div className="profile-actions">
-        <button className="video-btn">Videos</button>
+        <Btn Content={"Video"}/>
 
         <div className="search-box">
-          <TextField 
-            placeholder="Search"
-            variant="outlined"
-            size="small"
-          />
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
+        <TextField
+  placeholder="Search"
+  variant="outlined"
+  size="small"
+  sx={{
+    width: "600px",
+    backgroundColor: "black",
+    borderRadius: "40px",
+
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "40px",
+      color: "white",
+
+      "& fieldset": {
+        borderColor: "white",
+        borderWidth: "2px",
+      },
+
+      "&:hover fieldset": {
+        borderColor: "#2196f3",
+      },
+
+      "&.Mui-focused fieldset": {
+        borderColor: "#2196f3",
+      },
+    },
+
+    "& input::placeholder": {
+      color: "white",
+      opacity: 0.7,
+    },
+  }}
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <SearchIcon sx={{ color: "white" }} />
+      </InputAdornment>
+    ),
+  }}
+/>
         </div>
       </div>
 

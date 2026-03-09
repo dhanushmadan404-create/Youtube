@@ -2,21 +2,32 @@ import React from "react";
 import Profile from "../assets/profile.png";
 import Pro from "../assets/react.svg";
 import "../styles/Content.css"
-function Content({item}) {
+
+function Content({ item }) {
   return (
-    <div  className="Content">
+    <div className="Content">
+      <div className="Top">
+        <img className="thumbnail" src={item.thumbnail} alt="This is my thambnile" />
+      </div>
       <div>
-        <img src={item.video.thumbnail} alt="This is my thambnile" />
+
+        <b className="Title">{item.title}</b>
       </div>
       <div className="ContentBox">
-        <img src={item.user[(item.userId-1)].profilePicture} alt="This is my profile" />
-        <div>
 
-        <b>{item.video.title}</b>
-        <p></p>
-        <p>Categories</p>
+
+        <div>
+          <img src={item.thumbnail} alt="This is my profile" />
+
         </div>
-        <b>Views</b>
+        <div>
+          <p><b>Views:</b>{item.views}</p>
+
+          <p>{item.category}</p>
+        </div>
+
+
+
       </div>
     </div>
   );

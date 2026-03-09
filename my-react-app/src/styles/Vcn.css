@@ -1,8 +1,9 @@
 .Container{
+display: flex;
+flex-wrap: wrap;
 
-     padding-top: 24px;
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: flex-start;
-      width: 100%;
+gap: 50px;
+margin: 10px;
+width: 100dvw;
+
 }

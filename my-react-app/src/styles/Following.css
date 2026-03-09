@@ -1,0 +1,8 @@
+.TopFollow{
+    @apply text-[white]
+}
+
+.Option.sel{
+    @apply transition-[0.9] text-[white] border-b-[2px]  border-solid border-[green]
+
+}

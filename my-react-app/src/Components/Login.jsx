@@ -5,8 +5,8 @@ import "../styles/Form.css"
 import Box from "@mui/material/Box"
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-
-function Login() {
+import Typography from '@mui/material/Typography'
+function Login({SetStatus}) {
     const LoginSchemas = YUP.object({
         email: YUP.string("character should be string").required("This value should required").min(4, "Minimum 4 character need ").max(50, 'Do not exist 50 character').email("Invalid Email"),
         password: YUP.string("character should be string").required("This value should required").min(6, "Minimum 6 character need ").max(12, 'Do not exist 12 character').matches(
@@ -33,15 +33,19 @@ function Login() {
   <Box
   component="form"
   className="form"
-
+  
   onSubmit={LoginForm.handleSubmit}
   noValidate
 >
+            <Typography variant="h4" component="h1" gutterBottom>
+              Login
+            </Typography>
+    
     
   <TextField
     label="Email"
     type="email"
-    
+
     className='Input'
     name="email"
     placeholder="Enter Your Email"
@@ -68,9 +72,12 @@ function Login() {
   <Button type="submit" variant="contained">
     Submit
   </Button>
+   <Typography variant='p' component="p" gutterBottom>
+    Don't have an account? <span className='link' onClick={() => SetStatus(false)}>Register</span>
+  </Typography>
+ 
 </Box>
         </>
-    )
-}
+    )   }
 
 export default Login

@@ -2,7 +2,7 @@
 .form {
   width: 100%;
   max-width: 400px;
-  margin: 80px auto;
+  margin: 0 auto;
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -16,6 +16,7 @@
 /* Make TextField full width */
 .Input {
   width: 100%;
+  border:10px solid black;
 }
 
 /* Style the submit button */

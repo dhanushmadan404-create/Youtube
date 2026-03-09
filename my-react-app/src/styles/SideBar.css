@@ -1,16 +1,23 @@
 .Side {
   width: 60px;
-  height: 100vh;
+  height: 100dvh;
   background: #111;
   color: white;
-  overflow: hidden;
   transition: width 0.3s ease;
   padding: 10px;
-  border: 3px solid rgb(92, 43, 153);
+  border-right: 3px solid rgb(92, 43, 153);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 60px;  
+  left: 0;
+  height: calc(100vh - 60px);
+  z-index: 999;
+  gap: 10px;
 }
 
 .Side.active {
-  width: 220px;
+  width: 260px;
 }
 
 .Side button {
@@ -22,19 +29,27 @@
   margin-bottom: 20px;
 }
 
-
-.Side div b,
-.Side h1 {
-  display: flex;
-  align-items: start;
-
-  gap: 28px;
-  overflow: hidden;
-  
-}
-
-.Side div {
+.Category {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.Align,
+.HeadAlign {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.ALign > img {
+  width: 30px;
+  height: 30px;
+}
+.HeadAlign {
+  margin-top: 20px;
+  border-bottom: purple solid 2px;
+
+  border-radius: 5px;
 }

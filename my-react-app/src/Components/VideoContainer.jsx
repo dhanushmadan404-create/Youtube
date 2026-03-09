@@ -1,13 +1,13 @@
 import React from 'react'
 import '../styles/Vcn.css'
 import Content from './Content'
-function VideoContainer({Data}) {
+import {Data} from '../Backend/Data'
+function VideoContainer() {
+  const value=Data
   return (
     <div className='Container'>
 
-        {Data.map((item) => (
-          <Content key={item.id} item={item} />
-        ))}
+        {value.video.map((item) =>  <Content key={item.id} item={item} />        )}
 
     </div>
   )

@@ -2,7 +2,7 @@
 
 :root {
   --border-color: #e5e5e5;
-  --text-main: #0f0f0f;
+  --text-main: #ffffff;
   --text-secondary: #606060;
   --bg-color: #ffffff;
   --btn-hover: #f2f2f2;
@@ -14,6 +14,7 @@
   margin: 0 auto;
   padding: 20px;
   color: var(--text-main);
+  border: white solid 5px;
 }
 
 /* Header Section */
@@ -62,6 +63,7 @@
 
 .cancel-btn:hover {
   background-color: var(--btn-hover);
+  color: #0f0f0f;
 }
 
 .save-btn {
@@ -70,7 +72,8 @@
 }
 
 .save-btn:hover {
-  background-color: #272727;
+  background-color: #3ee40b;
+  color: black;
 }
 
 .upload-btn {
