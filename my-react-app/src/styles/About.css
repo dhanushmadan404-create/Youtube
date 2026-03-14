@@ -1,0 +1,43 @@
+.About{
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+background: url(../assets/gemini.png);
+  background-attachment: fixed;
+  background-size:cover;
+  font-style: oblique;
+}
+.head{
+     align-self: center;
+     color: white;
+     width: 700px;
+  height: 100px;
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 20px;
+  background: rgba(255,255,255,0.3) ;
+
+
+
+}
+.Heading{
+      background-image:url("../assets/dark.png");
+background-size:cover;
+background-position:center;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+.Para{
+        color: rgb(234, 255, 0);
+        width: 700px;
+        
+
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 20px;
+}

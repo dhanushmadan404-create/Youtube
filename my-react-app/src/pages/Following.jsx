@@ -4,8 +4,11 @@ import VideoContainer from '../Components/VideoContainer'
 import "../styles/Following.css"
 import { Typography } from '@mui/material'
 import { Data } from '../Backend/Data'
+import CategoryBlock from '../Components/CategoryBlock'
+import ChannelContainer from '../Components/ChannelContainer'
 function Following() {
     const [Active,SetActive]=useState("Videos")
+    const [Block,SetBlock]=useState(<VideoContainer/>)
     const [For, SetFor] = useState({
         heading: 'Videos',
         Data: Data
@@ -16,16 +19,20 @@ function Following() {
         switch (heading) {
             case "Videos":
                 SetActive(heading)
+                SetBlock(<VideoContainer/>)
                 console.log("Videos")
                 NewState=Data
                 break;
             case "Categories":
                 SetActive(heading)
-                NewState=Data
-                console.log("categories")
-                break;
-            case "Channels":
-                SetActive(heading)
+                    SetBlock(<><CategoryBlock/><VideoContainer/></>)
+                    NewState=Data
+                    console.log("categories")
+                    break;
+                case "Channels":
+                    SetActive(heading)
+                SetBlock(<><ChannelContainer/><VideoContainer/></>)
+
                 NewState=Data
                 console.log("Channel")
                 break;
@@ -53,7 +60,8 @@ function Following() {
                 </div>
             </div>
             <div>
-                <VideoContainer Data={For.Data} />
+                {Block}
+                
             </div>
         </div>
     )

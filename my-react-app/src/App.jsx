@@ -13,7 +13,7 @@ import './App.css'
 // ?import Register from './Components/Register'
 import Layout from './Layout/Layout'
 // import VideoContainer from './Components/VideoContainer'
-// !import Home from './pages/Home'
+import Home from './pages/Home'
 // !import Auth from './pages/Auth'
 //? import Label from './Components/Label'
 // ?import Label from './Components/Label'
@@ -25,14 +25,18 @@ import CommentCard from './Components/CommentCard.jsx';
 // Followings
 import Channel from "./Components/Channel"
 import ChannelContainer from './Components/ChannelContainer.jsx';
-
+// upload video
+import Upload from './pages/Upload.jsx';
+// Router
+import { RouterProvider } from 'react-router-dom';
+import Router from './Router/Router.jsx';
 function App() {
   
 
   return (
     <>
+<RouterProvider router={Router}/>
 
-    <Layout/>
     </>
   )
 }

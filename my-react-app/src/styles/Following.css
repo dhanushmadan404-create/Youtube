@@ -1,5 +1,5 @@
 .TopFollow{
-    @apply text-[white]
+    @apply text-[white] mb-[20px]
 }
 
 .Option.sel{

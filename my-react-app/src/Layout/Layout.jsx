@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '../Components/Nav'
-import Outlet from "react"
+
 import SideBar from '../Components/SideBar'
 import Home from '../pages/Home'
 // import Auth from '../pages/Auth'
@@ -9,9 +9,15 @@ import Profile from '../Components/Profile'
 import "../styles/Layout.css"
 import ProfileInfo from '../pages/ProfileInfo'
 import Following from '../pages/Following'
-import Category from '../Components/Category'
+// import Category from '../Components/Category'
 import CategoryBlock from '../Components/CategoryBlock'
 import Channel from "../Components/Channel"
+import CategoryContain from '../pages/CategoryContainer'
+import ChannelPage from "../pages/ChannelPage"
+import About from '../pages/About'
+// outlet
+
+import { Outlet } from 'react-router-dom'
 function Layout() {
   return (
     <div>
@@ -20,10 +26,10 @@ function Layout() {
 
      
         <SideBar />
-   =
+   
 
       <div className="MainContent">
-        <Home/>
+        <About/>
       </div>
       
 
