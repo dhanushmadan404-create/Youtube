@@ -29,7 +29,7 @@ function Layout() {
    
 
       <div className="MainContent">
-        <About/>
+        <Outlet/>
       </div>
       
 

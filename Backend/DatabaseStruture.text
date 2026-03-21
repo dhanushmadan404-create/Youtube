@@ -1,0 +1,17 @@
+User>
+    name
+    email
+    password
+    profileImage
+    banner
+    description
+
+Video>
+    user_id
+    Video_url
+    Title
+    Thumbnail
+    description
+    Category
+    Restriction
+    
