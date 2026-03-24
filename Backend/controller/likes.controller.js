@@ -2,8 +2,8 @@ import { likesPost,likesGet,videoByLike,likesRemove } from "../service/likes.ser
 export const postLikes=async(req,res)=>{
     const {user_id,video_id}=req.body
     const body={
-        user_id,
-        video_id
+        user_id:user_id,
+        video_id:video_id
     }
     const result=await likesPost(body)
     res.json(result)

@@ -12,3 +12,8 @@ export const UserPost=async (Body)=>{
     return result
 
 }
+export const GetByEmail=async(email)=>{
+    const DB= await getDb()
+    const result=await DB.collection('User').findOne({email:email})
+    return result
+}

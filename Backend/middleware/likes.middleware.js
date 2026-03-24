@@ -1,4 +1,4 @@
-export const ValidateLikes=async (schemas)=>{
+export const ValidateLikes=(schemas)=>{
     return (req,res,next)=>{
         const{value,error}=schemas.validate(req.body)
         if(error){
