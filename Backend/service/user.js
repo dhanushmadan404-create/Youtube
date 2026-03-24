@@ -5,3 +5,10 @@ export const GetUserAll=async()=>{
     return result
 
 }
+
+export const UserPost=async (Body)=>{
+        const DB= await getDb()
+    const result=await DB.collection('User').insertOne(Body)
+    return result
+
+}

@@ -2,6 +2,7 @@ import express from "express"
 import {connect} from "./config/db_connect.js"
 import  router  from "./Router/user.js"
 import videoRouter from "./Router/video.js" 
+import likesRouter from "./Router/likes.js"
 import cors from "cors"
 
 // Store the express power
@@ -13,6 +14,7 @@ connect()
 app.listen(process.env.PORT,()=>{
     app.use("/user",router)
     app.use('/video',videoRouter)
+    app.use('/likes',likesRouter)
     console.log("Node Express start his game")
 })
 
