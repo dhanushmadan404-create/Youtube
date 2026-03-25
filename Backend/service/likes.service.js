@@ -1,9 +1,8 @@
-
-export const likesPost=async(body)=>{
-     try {
+export const likesPost = async (body) => {
+  try {
     const DB = await getDb();
-    const Result = await DB.collection("Likes").insertOne(body)
-   if (Result) {
+    const Result = await DB.collection("Likes").insertOne(body);
+    if (Result) {
       return {
         Message: "likes Created",
         result: Result,
@@ -13,13 +12,15 @@ export const likesPost=async(body)=>{
     console.log(err);
     return err;
   }
-}
+};
 
-export const likesGet=async(videoId)=>{
-     try {
+export const likesGet = async (videoId) => {
+  try {
     const DB = await getDb();
-    const Result = await DB.collection("Likes").find({video_id:videoId}).toArray()
-   if (Result) {
+    const Result = await DB.collection("Likes")
+      .find({ video_id: videoId })
+      .toArray();
+    if (Result) {
       return {
         Message: "successFully get total like",
         result: Result,
@@ -29,8 +30,7 @@ export const likesGet=async(videoId)=>{
     console.log(err);
     return err;
   }
-}
-
+};
 
 export const videoByLike = async (userid) => {
   try {
@@ -56,12 +56,14 @@ export const videoByLike = async (userid) => {
   }
 };
 
-
-export const likesRemove=async(userId,videoId)=>{
-     try {
+export const likesRemove = async (userId, videoId) => {
+  try {
     const DB = await getDb();
-    const Result = await DB.collection("Likes").deleteOne({video_id:videoId,user_id:userId})
-   if (Result.deletedCount>=1) {
+    const Result = await DB.collection("Likes").deleteOne({
+      video_id: videoId,
+      user_id: userId,
+    });
+    if (Result.deletedCount >= 1) {
       return {
         Message: "successFully like roved",
         result: Result,
@@ -71,4 +73,4 @@ export const likesRemove=async(userId,videoId)=>{
     console.log(err);
     return err;
   }
-}
+};

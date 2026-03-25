@@ -1,19 +1,22 @@
-import { getDb } from "../config/db_connect.js"
-export const GetUserAll=async()=>{
-    const DB= await getDb()
-    const result=await DB.collection('User').find().toArray()
-    return result
+import { getDb } from "../config/db_connect.js";
+import { ObjectId } from "mongodb";
+const DB_name = await getDb();
+export const GetUserAll = async () => {
+  const result = await DB_name.collection("User").find().toArray();
+  return result;
+};
 
-}
-
-export const UserPost=async (Body)=>{
-        const DB= await getDb()
-    const result=await DB.collection('User').insertOne(Body)
-    return result
-
-}
-export const GetByEmail=async(email)=>{
-    const DB= await getDb()
-    const result=await DB.collection('User').findOne({email:email})
-    return result
-}
+export const UserPost = async (Body) => {
+  const result = await DB_name.collection("User").insertOne(Body);
+  return result;
+};
+export const GetByEmail = async (email) => {
+  const result = await DB_name.collection("User").findOne({ email: email });
+  return result;
+};
+export const UpdateUser = async (Userid, updateData) => {
+  const result = await DB_name.collection("User").updateOne(
+    { _id: new ObjectId(Userid) },
+    {},
+  );
+};

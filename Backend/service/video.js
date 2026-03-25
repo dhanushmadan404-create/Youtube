@@ -62,12 +62,11 @@ export const videoByUser = async (userid) => {
   }
 };
 
-
-export const videoRemove = async (video_id) => {
+export const videoRemove = async (Video_id) => {
   try {
     const DB = await getDb();
     const Result = await DB.collection("Video").deleteOne({
-      _id: new ObjectId(video_id),
+      _id:Video_id,
     });
     if (Result.deletedCount >= 1) {
       return { message: "Video deleted successfully" };
