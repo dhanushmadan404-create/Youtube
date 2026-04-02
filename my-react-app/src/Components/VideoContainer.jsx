@@ -1,13 +1,16 @@
 import React from 'react'
 import '../styles/Vcn.css'
 import Content from './Content'
-import {Data} from '../Backend/Data'
-function VideoContainer() {
-  const value=Data
+function VideoContainer({Data}) {
+  
+   if (!Data || !Array.isArray(Data) || Data.length === 0) {
+
+    return <div style={{color:"white"}}>Loading...</div>; // 👈 prevents crash
+  }
   return (
     <div className='Container'>
 
-        {value.video.map((item) =>  <Content key={item.id} item={item} />        )}
+        {Data.map((item) =>  <Content key={item._id} item={item}  />        )}
 
     </div>
   )

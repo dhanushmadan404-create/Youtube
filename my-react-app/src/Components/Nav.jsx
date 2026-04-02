@@ -15,8 +15,8 @@ function Nav() {
     <nav className='nav'>
       <div className='NavContainer'>
         <div className='Start'>
-          <Link to={"/"}><img src={logo} alt="Error" /></Link>
-          <Link to={"/"}><Btn Content={"HOME"}/></Link>
+          <Link to={"/dashboard"}><img src={logo} alt="Error" /></Link>
+          <Link to={"/dashboard"}><Btn Content={"HOME"}/></Link>
           <Link to={"/following"}>
           <Btn Content={"FOLLOWING"}/>
           </Link>

@@ -2,7 +2,9 @@ import React from 'react'
 import "../styles/EditProfile.css"
 import profile from "../assets/react.svg"
 import Banner from "../assets/profile.png"
+import { useNavigate } from 'react-router-dom'
 function EditProfile() {
+  const navigate=useNavigate()
   return (
     <div className="edit-profile">
 
@@ -15,7 +17,7 @@ function EditProfile() {
         <div className="header-actions">
           <h2>Profile</h2>
           <div className="action-buttons">
-            <button className="btn cancel-btn">Cancel</button>
+            <button className="btn cancel-btn" onClick={()=>{navigate(-1)}}>Cancel</button>
             <button className="btn save-btn">Save</button>
           </div>
         </div>

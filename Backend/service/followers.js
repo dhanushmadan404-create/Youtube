@@ -1,4 +1,4 @@
-import { getDb } from "../config/db_connect";
+import { getDb } from "../config/db_connect.js";
 export const postFollowers = async (body) => {
   const Db = await getDb();
   const result = await Db.collection("Followers").insertOne(body);

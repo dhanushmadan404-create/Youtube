@@ -5,13 +5,11 @@ import {
   postView,
   getView,
   getByView,
-  removeView,
 } from "../controller/view.controller.js";
 const viewRouter = Router();
 
 viewRouter.post("/", ValidateView(ViewSchemas), postView);
-viewRouter.get("/likes/:videoid", getView);
-viewRouter.get("/user/like/:userid", getByView);
-viewRouter.delete("/remove/:videoid/like/:userid", removeView);
+viewRouter.get("/:videoid", getView);
+viewRouter.get("/user/:userid", getByView);
 
 export default viewRouter;

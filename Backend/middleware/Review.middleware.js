@@ -1,4 +1,4 @@
-export const ValidateReview = async (schemas) => {
+export const ValidateReview = (schemas) => {
   return async (req, res, next) => {
     const { value, error } = await schemas.validate(req.body);
     if (error) {

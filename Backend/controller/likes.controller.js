@@ -1,4 +1,3 @@
-import { object } from "joi";
 import {
   likesPost,
   likesGet,
@@ -17,9 +16,12 @@ export const postLikes = async (req, res) => {
 };
 
 export const getLikes = async (req, res) => {
-  const { videoid } = req.params.video_id;
+  const  videoid  = req.params.video_id;
   const video_id=new ObjectId(videoid)
   const result = await likesGet(video_id);
+  if (result.result.length === 0) {
+  return res.status(404).json({ message: "No likes found" });
+}
   res.json(result);
 };
 
@@ -34,6 +36,6 @@ export const removeLike = async (req, res) => {
   const user_id=new ObjectId(userid)
   const video_id=new ObjectId(videoid)
 
-  const result = likesRemove(user_id, video_id);
+  const result =await likesRemove(user_id, video_id);
   res.json(result);
 };

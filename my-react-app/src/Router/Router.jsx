@@ -1,5 +1,7 @@
-import { RouterSystem } from "./RouterSystem";
 import { createBrowserRouter } from 'react-router-dom'
+import AuthRouter from "./AuthRouter";
+import MainRouter from './MainRouter';
 
-const Router=createBrowserRouter(RouterSystem) 
+const Router = createBrowserRouter([AuthRouter, MainRouter])
+
 export default Router

@@ -1,3 +1,4 @@
+import { getDb } from "../config/db_connect.js";
 export const viewPost = async (body) => {
   try {
     const DB = await getDb();
@@ -14,15 +15,15 @@ export const viewPost = async (body) => {
   }
 };
 
-export const viewGet = async (videoId) => {
+export const viewGet = async (video_id) => {
   try {
     const DB = await getDb();
     const Result = await DB.collection("Views")
-      .find({ video_id: videoId })
+      .find({ video_id: video_id })
       .toArray();
     if (Result) {
       return {
-        Message: "successFully get total like",
+        Message: "successFully get total view",
         result: Result,
       };
     }
@@ -41,7 +42,7 @@ export const videoByView = async (userid) => {
           $match: { user_id: userid },
         },
         {
-          $lookUp: {
+          $lookup: {
             from: "Video",
             localField: "video_id",
             foreignField: "_id",
@@ -50,25 +51,7 @@ export const videoByView = async (userid) => {
         },
       ])
       .toArray();
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
-export const viewRemove = async (userId, videoId) => {
-  try {
-    const DB = await getDb();
-    const Result = await DB.collection("Views").deleteOne({
-      video_id: videoId,
-      user_id: userId,
-    });
-    if (Result.deletedCount >= 1) {
-      return {
-        Message: "successFully like roved",
-        result: Result,
-      };
-    }
+      return Result
   } catch (err) {
     console.log(err);
     return err;

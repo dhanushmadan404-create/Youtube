@@ -17,17 +17,17 @@ export const UserSchemas = Joi.object({
     "string.min": "Password must be at least 6 characters",
   }),
 
-  profile_img: Joi.string().uri().required().messages({
+  profile_img: Joi.string().uri().messages({
     "string.uri": "Profile image must be a valid URL",
   }),
 
-  banner_img: Joi.string().uri().required().messages({
+  banner_img: Joi.string().uri().messages({
     "string.uri": "Banner image must be a valid URL",
   }),
 
-  description: Joi.string().min(10).max(200).required(),
+  description: Joi.string().min(10).max(200),
 
-  age: Joi.number().integer().min(10).max(100).required(),
+  age: Joi.number().integer().min(10).max(100),
 }).options({ abortEarly: false });
 
 export const UserLoginSchemas = Joi.object({

@@ -2,10 +2,13 @@ import React from "react";
 import Profile from "../assets/profile.png";
 import Pro from "../assets/react.svg";
 import "../styles/Content.css"
-
+import { useNavigate } from "react-router-dom";
 function Content({ item }) {
+  const navigate=useNavigate()
   return (
-    <div className="Content">
+    <div className="Content" onClick={()=>{
+      navigate("/vdoplayer")
+    }}>
       <div className="Top">
         <img className="thumbnail" src={item.thumbnail} alt="This is my thambnile" />
       </div>
@@ -21,7 +24,7 @@ function Content({ item }) {
 
         </div>
         <div>
-          <p><b>Views:</b>{item.views}</p>
+          <p><b>Views:</b>78</p>
 
           <p>{item.category}</p>
         </div>

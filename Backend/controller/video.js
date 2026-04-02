@@ -16,7 +16,7 @@ export const videoCreate = async (req, res) => {
     restriction,
   } = req.body;
   const Body = {
-    user_id: user_id,
+    user_id: new ObjectId(user_id),
     video_url: video_url,
     title: title,
     thumbnail: thumbnail,

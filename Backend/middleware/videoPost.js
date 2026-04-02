@@ -8,3 +8,14 @@ export const videoPostValidation = (schemas) => {
     }
   };
 };
+
+export const validateUpdateVideo=(schemas)=>{
+  return (req,res,next)=>{
+    const {value,error}=schemas.validate(req.body)
+    if(error){
+      res.json(`invalid input ${error}`)
+    }else{
+      next()
+    }
+  }
+}

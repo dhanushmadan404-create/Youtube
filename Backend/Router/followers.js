@@ -7,8 +7,8 @@ import {
   followingRemove,
 } from "../controller/followers.js";
 
-const router = Router();
-router.post("/", validateFollowers, followerPost);
-router.get("/fans/:userid", followersGet);
-router.get("/following/:userid", followingGet);
-router.delete("/removeFollowing/:userid/:fanid", followingRemove);
+export const followRouter = Router();
+followRouter.post("/", validateFollowers, followerPost);
+followRouter.get("/fans/:userid", followersGet);
+followRouter.get("/following/:userid", followingGet);
+followRouter.delete("/removefollowing/:userid/:fanid", followingRemove);

@@ -4,9 +4,17 @@ import { TextField, InputAdornment } from "@mui/material";
 import "../styles/Profile.css";
 import profile from "../assets/react.svg"
 import Banner from "../assets/profile.png"
+
 import Btn from './Btn';
 import Typography from '@mui/material/Typography';
-function Profile() {
+import { useNavigate } from 'react-router-dom';
+
+function Profile({data}) {
+  if(!data){
+    return <h1>Loading</h1>
+  }
+
+  const navigate=useNavigate()
   return (
     <div className="profile">
 
@@ -18,28 +26,31 @@ function Profile() {
           <div className="channel-info">
 
           <div className="avatar">
-            <img src={profile} alt="profile" />
+            <img src={data.profileImage?user.profileImage : profile} alt="profile" />
           </div>
 
           <div className="channel-details">
-            <h1>Channel Name</h1>
-            <b>email@gmail.com</b>
+            <h1>{data.name}</h1>
+            <b>{data.email}</b>
             <h4 className="subscribe">Subscribe</h4>
-            <button className="customize-btn">Customize Channel</button>
+            <button
+                className="customize-btn"
+                onClick={() => navigate("/editProfile")} 
+              >
+                Customize Channel
+              </button>
           </div>
           </div>
           <div>
        <Typography variant="h5" Content='h5' sx={{color:"white"}} >
-      This is a paragraph using Material UI Typography component. 
-      The "paragraph" prop automatically adds margin at the bottom 
-      like a normal HTML paragraph tag.
+      {data.description || "This is my channel description. Welcome to my channel!"}
     </Typography>
           </div>
         </div>
 
         {/* Right Side - Banner */}
         <div className="banner">
-          <img src={Banner} alt="banner" />
+          <img src={data.bannerImage?data.bannerImage  : Banner} alt="banner" />
         </div>
 
       </div>

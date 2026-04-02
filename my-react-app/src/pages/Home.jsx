@@ -7,10 +7,19 @@ import CategoryBlock from '../Components/CategoryBlock'
 import ChannelContainer from '../Components/ChannelContainer'
 // Data
 import {useSelector} from 'react-redux'
-
+import {getAllVideo} from '../Redux/Slice/VIdeoSlice'
+import { useDispatch } from 'react-redux'
 function Home() {
-    const Data = useSelector((state) => state.Data)
+    const dispatch=useDispatch()
+    const RaVideo=useSelector((state)=>state.video.raVideo)
 
+    React.useEffect(() => {
+  dispatch(getAllVideo())
+}, [])
+
+React.useEffect(() => {
+  console.log("Updated:", RaVideo)
+}, [RaVideo])
   return (
     <>
       <div className='Home'>
@@ -21,7 +30,7 @@ function Home() {
         <div className='VideoContainer'>
         <CategoryBlock/>
         <ChannelContainer/>
-        <VideoContainer Data={Data} />
+        <VideoContainer Data={RaVideo} />
         </div>
 
       </div>

@@ -1,0 +1,127 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import followersApi from "../../api/Followers";
+
+const initialState = {
+  followerCreate: null,
+  followers: null,
+  following: null,
+  removeFollowers: null,
+  isLoading: false,
+  isError: false,
+};
+
+// create follower
+export const createFollowers = createAsyncThunk(
+  "followers/create",
+  async (body, thunkApi) => {
+    try {
+      const response = await followersApi.createFollower(body);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// get followers
+export const getFollowers = createAsyncThunk(
+  "followers/getFollowers",
+  async (userId, thunkApi) => {
+    try {
+      const response = await followersApi.getByFollowers(userId);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// get following
+export const getFollowing = createAsyncThunk(
+  "followers/getFollowing",
+  async (userId, thunkApi) => {
+    try {
+      const response = await followersApi.getByFollowing(userId);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// remove following
+export const removeFollowing = createAsyncThunk(
+  "followers/removeFollowing",
+  async ({ userId, fanId }, thunkApi) => {
+    try {
+      const response = await followersApi.removeFollow(userId, fanId);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+const followersSlice = createSlice({
+  name: "followers",
+  initialState,
+  reducers: {},
+
+  extraReducers: (builder) => {
+    builder
+
+      // create follower states
+      .addCase(createFollowers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createFollowers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.followerCreate = action.payload;
+      })
+      .addCase(createFollowers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+
+      // followers states
+      .addCase(getFollowers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFollowers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.followers = action.payload;
+      })
+      .addCase(getFollowers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+
+      // following states
+      .addCase(getFollowing.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFollowing.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.following = action.payload;
+      })
+      .addCase(getFollowing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+
+      // remove following states
+      .addCase(removeFollowing.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeFollowing.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.removeFollowers = action.payload;
+      })
+      .addCase(removeFollowing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      });
+  },
+});
+
+export default followersSlice.reducer;

@@ -3,15 +3,21 @@ import {
   UserPost,
   UpdateUser,
   GetByEmail,
+  GetByUserId
 } from "../service/user.js";
 import { Hashing, Verify } from "../helper/auth.helper.js";
 import { Generate } from "../helper/jwt.helper.js";
 import { ObjectId } from "mongodb";
+
+// JWT Verification
+import { VerifyJwt } from "../helper/jwt.helper.js";
+
 export const UserAll = async (req, res) => {
   const result = await GetUserAll();
   res.json(result);
 };
 export const PostUser = async (req, res) => {
+  console.log(req.body);
   const { name, email, password, profile_img, banner_img, description, age } =
     req.body;
   const check = await GetByEmail(email);
@@ -39,6 +45,14 @@ export const GetByUser = async (req, res) => {
   const result = await GetByEmail(email);
   res.json(result);
 };
+//User_id
+
+export const GetById = async (req, res) => {
+  const { id } = req.params;
+  const user_id=new ObjectId(id)
+  const result = await GetByUserId(user_id);
+  res.json(result);
+};
 // login
 export const Login = async (req, res) => {
   const { email, password } = req.body;
@@ -64,10 +78,10 @@ export const Login = async (req, res) => {
       const token = await Generate(payLoad);
       res.json({
         status: true,
-        message: {
-          token: token,
-          result: result._id,
-        },
+        message: "Login Success",
+        token: token,
+        email:result.email,
+        id:result._id
       });
     }
   }
@@ -75,7 +89,8 @@ export const Login = async (req, res) => {
 
 export const UserUpdate = async (req, res) => {
   const { userid } = req.params;
-  const Userid=new ObjectId(userid)
+  console.log(userid);
+  const Userid = new ObjectId(userid);
   const { name, profile_img, banner_img, description, age } = req.body;
   const updateData = {
     name: name,
@@ -86,4 +101,21 @@ export const UserUpdate = async (req, res) => {
   };
   const result = await UpdateUser(Userid, updateData);
   res.json({ content: result, message: "successfully updated" });
+};
+
+export const GetMe = async (req, res) => {
+  const Token = req.cookies.token;
+  if (!Token) {
+    res.status(401).json({ message: "Token is not present" });
+  } else {
+    const result = await VerifyJwt(Token);
+    if (result.error) {
+      res.status(401).json(result.error);
+    } else {
+      const Data = await GetByEmail(result.data.email);
+      res.status(200).json({
+        data: Data,
+      });
+    }
+  }
 };

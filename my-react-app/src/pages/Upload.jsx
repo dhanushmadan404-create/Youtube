@@ -11,9 +11,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { MenuItem, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { CreateVideo } from "../Redux/Slice/VIdeoSlice";
 
+import Cloud from "../api/AssetsUpload";
 function Upload() {
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [videoPreview, setVideoPreview] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -38,8 +43,34 @@ function Upload() {
 
     validationSchema: UploadSchemas,
 
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values, { resetForm }) => {
+      try{
+
+        const User_id = localStorage.getItem("userid")
+        console.log(values.videoFile)
+        let video=await Cloud(values.videoFile)
+        let thumb=await Cloud(values.Thumbnail)
+      const body = {
+        user_id: User_id,
+        video_url: video,
+        title: values.Title,
+        thumbnail:  thumb,
+        description: values.Description,
+        category: values.Category,
+        restriction: values.Restriction,
+      }
+      console.log(body)
+      try {
+        const Response = await dispatch(CreateVideo({ body: body })).unwrap()
+        console.log(Response)
+      } catch (err) {
+        console.log(err)
+      }
+    }catch(err){
+      console.log(err)
+    }
+
+      resetForm()
     }
   });
 
@@ -73,9 +104,13 @@ function Upload() {
         <div className="Header">
           <Typography variant="h4">Upload Video</Typography>
 
-          <Button variant="contained">
+
+          <Button onClick={() => {
+            navigate(-1)
+          }} variant="contained">
             Close
           </Button>
+
         </div>
 
         <Box
@@ -192,7 +227,7 @@ function Upload() {
             alt="Thumbnail Preview"
             className="ImagePreview"
           />}
-          <Typography sx={{fontFamily: "Poppins",}} className="ThumbnailText" variant="h1">Thumbnail</Typography>
+          <Typography sx={{ fontFamily: "Poppins", }} className="ThumbnailText" variant="h1">Thumbnail</Typography>
 
         </div>
 

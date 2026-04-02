@@ -1,3 +1,5 @@
+import { getDb } from "../config/db_connect.js";
+
 export const likesPost = async (body) => {
   try {
     const DB = await getDb();

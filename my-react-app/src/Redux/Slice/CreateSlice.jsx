@@ -1,5 +1,5 @@
 import React from 'react'
-import {Data} from '../Backend/Data'
+import {Data} from '../../Backend/Data'
 
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
@@ -19,3 +19,5 @@ const DataSlice = createSlice({
 })  
 export const { AddUser, AddVideo } = DataSlice.actions
 export default DataSlice.reducer
+
+
