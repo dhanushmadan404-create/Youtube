@@ -45,7 +45,6 @@ function Upload() {
 
     onSubmit: async (values, { resetForm }) => {
       try{
-
         const User_id = localStorage.getItem("userid")
         console.log(values.videoFile)
         let video=await Cloud(values.videoFile)

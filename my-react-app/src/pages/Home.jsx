@@ -19,6 +19,7 @@ function Home() {
 
 React.useEffect(() => {
   console.log("Updated:", RaVideo)
+  
 }, [RaVideo])
   return (
     <>

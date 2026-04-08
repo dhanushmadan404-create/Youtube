@@ -89,7 +89,10 @@ export const Login = async (req, res) => {
 
 export const UserUpdate = async (req, res) => {
   const { userid } = req.params;
-  console.log(userid);
+  if (!userid) {
+    return res.status(400).json({ status: false, message: "Missing user id" });
+  }
+
   const Userid = new ObjectId(userid);
   const { name, profile_img, banner_img, description, age } = req.body;
   const updateData = {

@@ -6,10 +6,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from 'react-router-dom';
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
+import { useNavigate } from 'react-router-dom';
 function Nav() {
   const[On,Seton]=useState(false)
- 
+  const navigate=useNavigate()
+   async function logOut(){
+    localStorage.clear()
+
+    navigate("/")
+  }
+
 
   return (
     <nav className='nav'>
@@ -35,9 +41,8 @@ function Nav() {
             <Link to={"/Report"}>
           <Btn Content={"Report"}/>
             </Link>
-            <Link to={"/auth"}>
-          <Btn Content={"Log Out"}/>
-            </Link>
+          
+<Btn Content={"Log Out"} fuc={() => logOut()}/>            
             </>
         )
          }

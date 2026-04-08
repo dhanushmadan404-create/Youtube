@@ -5,7 +5,6 @@ const API_URL = import.meta.env.VITE_BACKEND_API;
 class User {
   constructor() {
     this.api = API_URL;
-
     this.headers = {
       "Content-Type": "application/json",
     };

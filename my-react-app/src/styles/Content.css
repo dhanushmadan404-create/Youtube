@@ -17,3 +17,6 @@
 .Content .ContentBox {
     @apply flex flex-row gap-[10px]
 }
+.middlePart{
+    @apply flex flex-row justify-between w-[180px] 
+}

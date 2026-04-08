@@ -3,7 +3,7 @@ import likesApi from "../../api/Likes";
 
 const initialState = {
   likesCreate: null,
-  likesVideo: null,
+  likesVideo: 0,
   userLikes: null,
   removeLikes: null,
   isLoading: false,
@@ -13,7 +13,7 @@ const initialState = {
 // create like
 export const createLikes = createAsyncThunk(
   "likes/create",
-  async (body, thunkApi) => {
+  async ({body}, thunkApi) => {
     try {
       const response = await likesApi.createLikes(body);
       return response.data;
@@ -26,7 +26,7 @@ export const createLikes = createAsyncThunk(
 // get video likes
 export const getVideoLikes = createAsyncThunk(
   "likes/videoLikes",
-  async (videoId, thunkApi) => {
+  async ({videoId}, thunkApi) => {
     try {
       const response = await likesApi.getByVideo(videoId);
       return response.data;

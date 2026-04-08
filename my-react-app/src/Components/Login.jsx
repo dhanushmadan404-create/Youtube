@@ -30,6 +30,7 @@ function Login() {
         console.log('login result', result.status);
 
         if (result.status) {
+          console.log(result.email)
           localStorage.setItem("token", result.token);
           localStorage.setItem("email", result.email);
           localStorage.setItem("userid", result.id);

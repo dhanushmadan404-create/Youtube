@@ -21,7 +21,18 @@ export const CreateVideo = async (Body) => {
 export const GetAllVideo = async () => {
   try {
     const DB = await getDb();
-    const Result = await DB.collection("Video").find().toArray();
+    const Result = await DB.collection("Video").aggregate([
+      {
+        $lookup:{
+          from:"User",
+          localField:"user_id",
+          foreignField:"_id",
+          as:"userInfo"
+        }
+      },{
+        $unwind:"$userInfo"
+      }
+    ]).toArray();
     if (Result) {
       return Result;
     }

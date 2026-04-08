@@ -3,8 +3,8 @@ import userApi from "../../api/User";
 
 const initialState = {
   createUser: null,
-  info:null,
-  getByEmail: null,
+infoAl:null,
+  info: null,
   login: null,
   updateUser: null,
   isLoading: false,
@@ -104,7 +104,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserByEmail.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.getByEmail = action.payload;
+        state.info = action.payload;
       })
       .addCase(getUserByEmail.rejected, (state, action) => {
         state.isLoading = false;
@@ -119,7 +119,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserById.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.info= action.payload;
+        state.infoAl= action.payload;
       })
       .addCase(getUserById.rejected, (state, action) => {
         state.isLoading = false;

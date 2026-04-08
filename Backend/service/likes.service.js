@@ -20,8 +20,7 @@ export const likesGet = async (videoId) => {
   try {
     const DB = await getDb();
     const Result = await DB.collection("Likes")
-      .find({ video_id: videoId })
-      .toArray();
+      .countDocuments({ video_id: videoId })
     if (Result) {
       return {
         Message: "successFully get total like",
