@@ -5,7 +5,8 @@ import {
   GetById,
   UserUpdate,
   Login,
-  GetMe
+  GetMe,
+  TopChannels
 } from "../controller/user.js";
 import { Router } from "express";
 import {
@@ -24,6 +25,7 @@ router.get("/", UserAll);
 router.post("/", ValidateUser(UserSchemas), PostUser);
 router.get("/:email", GetByUser);
 router.get("/id/:id", GetById);
+router.get("/top-channels/all", TopChannels); // New endpoint for top channels
 router.post("/login", ValidateLogin(UserLoginSchemas), Login);
 router.put("/update/:userid", ValidateUpdate(UpdateSchemas), UserUpdate);
 router.get("/me", GetMe);

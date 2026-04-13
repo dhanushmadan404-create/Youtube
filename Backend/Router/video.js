@@ -1,19 +1,37 @@
-import { videoCreate } from "../controller/video.js";
+import { 
+  videoCreate, 
+  GetAll, 
+  CategoryGet, 
+  getByUser, 
+  removeVideo, 
+  updateVideo,
+  Search,
+  GetFollowing,
+  GetRecommendedVideos,
+  IncrementViews
+} from "../controller/video.js";
 import { Router } from "express";
-import { GetAll } from "../controller/video.js";
-import { videoPost,updateVideoSchemas } from "../Schemas/videoPost.schemas.js";
-import { videoPostValidation,validateUpdateVideo } from "../middleware/videoPost.js";
-import { CategoryGet } from "../controller/video.js";
-import { getByUser } from "../controller/video.js";
-import { removeVideo } from "../controller/video.js";
-import { updateVideo } from "../controller/video.js";
+import { videoPost, updateVideoSchemas } from "../Schemas/videoPost.schemas.js";
+import {
+  videoPostValidation,
+  validateUpdateVideo,
+} from "../middleware/videoPost.js";
+
 const videoRouter = Router();
 
 videoRouter.post("/", videoPostValidation(videoPost), videoCreate);
-
 videoRouter.get("/", GetAll);
-videoRouter.get("/:category", CategoryGet);
+videoRouter.get("/search", Search); // Search endpoint
+videoRouter.get("/following/:follower_id", GetFollowing); // Following feed
+videoRouter.get("/recommended/:video_id", GetRecommendedVideos); // Recommended videos
+videoRouter.patch("/view/:video_id", IncrementViews); // Increment views
+
 videoRouter.get("/user/:user_id", getByUser);
+videoRouter.get("/cat/:category", CategoryGet); // Changed slightly to avoid conflict with /:video_id if needed, but let's keep it consistent
 videoRouter.delete("/remove/:video_id", removeVideo);
-videoRouter.put("/updateVideo/:video_id",validateUpdateVideo(updateVideoSchemas), updateVideo);
+videoRouter.put(
+  "/updateVideo/:video_id",
+  validateUpdateVideo(updateVideoSchemas),
+  updateVideo,
+);
 export default videoRouter;

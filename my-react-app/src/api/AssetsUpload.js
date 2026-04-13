@@ -1,5 +1,6 @@
 import axios from "axios"
-async function Cloud(file){
+// import { v2 as cloudinary } from 'cloudinary';
+export async function Cloud(file){
     try{
 
         const newObject=new FormData()
@@ -17,4 +18,22 @@ async function Cloud(file){
 
 }
 
-export default Cloud
+
+
+// cloudinary.config({
+//   cloud_name: "dpaqr0ffc",
+//   api_key: "289763629267261",
+//   api_secret: "your_api_secret",
+// });
+
+// export const deleteImage = async (req, res) => {
+//   try {
+//     const { public_id } = req.body;
+
+//     const result = await cloudinary.uploader.destroy(public_id);
+
+//     res.json(result);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };

@@ -13,6 +13,7 @@ const Upload = lazy(() => import("../pages/Upload"));
 const VdoPlayer = lazy(() => import("../pages/VdoPlayer"));
 const About = lazy(() => import("../pages/About"));
 const CategoryContain = lazy(() => import("../pages/CategoryContainer"));
+const UpdateVideo = lazy(() => import("../pages/UpdateVideo"));
 
 const MainRouter = {
     //parent "/"    /following
@@ -40,7 +41,7 @@ const MainRouter = {
             path: "/about",
             element: (
                 <CheckRouter>
-                    {" "}
+
                     <About />
                 </CheckRouter>
             ),
@@ -81,7 +82,6 @@ const MainRouter = {
             path: "/vdoplayer",
             element: (
                 <CheckRouter>
-                    {" "}
                     <VdoPlayer />
                 </CheckRouter>
             ),
@@ -91,6 +91,13 @@ const MainRouter = {
             element: (
                 <CheckRouter>
                     <CategoryContain />
+                </CheckRouter>
+            ),
+        }, {
+            path: "/updateVideo",
+            element: (
+                <CheckRouter>
+                    <UpdateVideo />
                 </CheckRouter>
             ),
         },

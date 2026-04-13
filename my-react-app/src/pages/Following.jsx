@@ -1,70 +1,55 @@
-import React, { useState } from 'react'
-import Button from '@mui/material/Button'
-import VideoContainer from '../Components/VideoContainer'
-import "../styles/Following.css"
-import { Typography } from '@mui/material'
-import { Data } from '../Backend/Data'
-import CategoryBlock from '../Components/CategoryBlock'
-import ChannelContainer from '../Components/ChannelContainer'
+import React, { useEffect } from 'react';
+import VideoContainer from '../Components/VideoContainer';
+import "../styles/Following.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { getFollowingFeed } from '../Redux/Slice/VIdeoSlice';
+
 function Following() {
-    const [Active,SetActive]=useState("Videos")
-    const [Block,SetBlock]=useState(<VideoContainer/>)
-    const [For, SetFor] = useState({
-        heading: 'Videos',
-        Data: Data
-    })
-    const Change = (e) => {
-        const heading=String( e.currentTarget.value)
-        let NewState
-        switch (heading) {
-            case "Videos":
-                SetActive(heading)
-                SetBlock(<VideoContainer/>)
-                console.log("Videos")
-                NewState=Data
-                break;
-            case "Categories":
-                SetActive(heading)
-                    SetBlock(<><CategoryBlock/><VideoContainer/></>)
-                    NewState=Data
-                    console.log("categories")
-                    break;
-                case "Channels":
-                    SetActive(heading)
-                SetBlock(<><ChannelContainer/><VideoContainer/></>)
+    const dispatch = useDispatch();
+    const followingVideos = useSelector((state) => state.video.followingVideos);
+    const isLoading = useSelector((state) => state.video.isLoading);
+    const currentUserId = localStorage.getItem("userid");
 
-                NewState=Data
-                console.log("Channel")
-                break;
-            default:
-                SetActive(heading)
-                NewState=Data
+    useEffect(() => {
+        if (currentUserId) {
+            dispatch(getFollowingFeed(currentUserId));
         }
-    SetFor({
-        heading:heading,
-        value:NewState
-    })
+    }, [dispatch, currentUserId]);
 
-
-
-    }
     return (
         <div className='FollowingContainer'>
-            <div className='TopFollow'>
-                <Typography variant='h1' component="h1" >
-                    {For.heading}
-                </Typography>
-                <div><Button className={Active=="Videos"?"Option sel":"Option"} value={"Videos"} onClick={Change}>Videos</Button>
-                    <Button className={Active=="Categories"?"Option sel":"Option"}value={"Categories"} onClick={Change}>Categories</Button>
-                    <Button className={Active=="Channels"?"Option sel":"Option"}value={"Channels"} onClick={Change}>Channels</Button>
+            <div className='TopFollow' style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '20px', 
+                padding: '20px',
+                borderBottom: '1px solid #333'
+            }}>
+                <h1 className="typography-h5" style={{ fontSize: '2rem', margin: '0' }}>
+                    Following
+                </h1>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button 
+                        className="custom-btn" 
+                        style={{ background: 'var(--brand-color)', color: 'white' }}
+                    >
+                        Videos
+                    </button>
+                    {/* Category filter removed as per requirements */}
                 </div>
             </div>
-            <div>
-                {Block}
-                
+            
+            <div className="FollowingVideos" style={{ padding: '20px' }}>
+                {followingVideos.length === 0 && !isLoading ? (
+                    <div className="no-videos" style={{ color: 'white', textAlign: 'center', padding: '50px' }}>
+                        No videos from followed users yet. Start following creators!
+                    </div>
+                ) : (
+                    <VideoContainer Data={followingVideos} />
+                )}
             </div>
         </div>
-    )
+    );
 }
 
-export default Following
+export default Following;

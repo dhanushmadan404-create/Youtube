@@ -1,35 +1,99 @@
-.NavContainer{
+.NavContainer {
   width: 100%;
-  height: 60px;
+  height: var(--nav-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px 10px 10px;
+  padding: 0 24px;
   position: fixed;
-  top: 0%;
-  background-color: black;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
-.Start{
+
+.Start {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 16px;
 }
-.SubMenu{
+.SearchHeader>form{
+display: flex;
+}
+.custom-input{
+  width: 300px;
+}
+.custom-btn{
+  width: fit-content;
+  
+}
+.Start img {
+  height: 32px;
+  width: auto;
+  filter: drop-shadow(0 0 8px var(--purple-accent));
+}
+
+.Mid {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 40px;
+  transition: all 0.3s ease;
+}
+
+.search-link {
+  text-decoration: none;
+  width: 100%;
+}
+
+
+.End {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.SubMenu {
+  position: fixed;
+  top: var(--nav-height);
+  right: 24px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  /* border: purple solid 3px ; */
-  gap: 10px;
-  position: fixed;
-  left: 20%;
-  top: 60px;
+  gap: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  z-index: 1001;
+  min-width: 180px;
 }
-.Mid{
-  display: flex;
-  align-items: center;
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .Mid {
+    margin: 0 20px;
+  }
 }
-.End{
-    display: flex;
-  align-items: center;
-  gap: 10px;
+
+@media (max-width: 768px) {
+  .NavContainer {
+    padding: 0 12px;
+  }
+  
+  .Mid {
+    display: none; /* Hide search bar on small mobile, can be toggled by icon later */
+  }
+  
+  .StartBtnHome, .StartBtnFollowing {
+    display: none; /* Hide text buttons on mobile, icons would be better but keeping current structure */
+  }
+
+  .End .custom-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }

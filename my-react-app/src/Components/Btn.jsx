@@ -1,15 +1,31 @@
-import React from 'react'
-import Button from "@mui/material/Button"
-function Btn({Content,fuc}) {
-  return (
-    <Button variant='constrained' sx={ {backgroundColor:'black',color:'white', border: 'purple',
-    borderWidth: '2px',
-    borderStyle: 'solid', transition: '0.3s',
+import React from 'react';
 
-    '&:hover': {
-      boxShadow: '0 0 35px rgba(106,13,173,1)',
-    },}} onClick={fuc}>{Content}</Button>
-  )
+function Btn({ Content, fuc, style }) {
+  return (
+    <button 
+      className="custom-nav-btn" 
+      style={{
+        backgroundColor: 'black',
+        color: 'white',
+        border: '2px solid purple',
+        padding: '6px 16px',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontWeight: '500',
+        transition: '0.3s',
+        ...style
+      }} 
+      onClick={fuc}
+      onMouseEnter={(e) => {
+        e.target.style.boxShadow = '0 0 15px rgba(106,13,173,1)';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.boxShadow = 'none';
+      }}
+    >
+      {Content}
+    </button>
+  );
 }
 
-export default Btn
+export default Btn;

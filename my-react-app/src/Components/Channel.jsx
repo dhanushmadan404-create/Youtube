@@ -1,14 +1,14 @@
-import React from 'react'
-import Profile from '../assets/react.svg'
-import { Typography } from '@mui/material'
-import "../styles/Channel.css"
+import React from 'react';
+import Profile from '../assets/react.svg';
+import "../styles/Channel.css";
+
 function Channel() {
   return (
     <div className='ChannelContainer'>
-      <img className='ChannelImg' src={Profile} alt="Error" />
-      <Typography className='Title' variant='h5' component="h1">Channel name</Typography>
+      <img className='ChannelImg' src={Profile} alt="Channel Profile" />
+      <h5 className='Title' style={{ color: 'white', margin: '10px 0' }}>Channel name</h5>
     </div>
-  )
+  );
 }
 
-export default Channel
+export default Channel;

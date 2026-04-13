@@ -1,3 +1,35 @@
-.videoPlayer{
-    @apply flex flex-col gap-[10px]
+.videoPlayer {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.Screen {
+  flex: 7;
+  min-width: 0;
+}
+
+.VideoContainer {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--purple-accent);
+}
+
+@media (max-width: 1024px) {
+  .videoPlayer {
+    flex-direction: column;
+    padding: 12px;
+  }
 }

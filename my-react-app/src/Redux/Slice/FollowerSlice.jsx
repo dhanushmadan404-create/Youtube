@@ -5,6 +5,7 @@ const initialState = {
   followerCreate: null,
   followers: null,
   following: null,
+  topChannels: [],
   removeFollowers: null,
   isLoading: false,
   isError: false,
@@ -55,6 +56,19 @@ export const removeFollowing = createAsyncThunk(
   async ({ userId, fanId }, thunkApi) => {
     try {
       const response = await followersApi.removeFollow(userId, fanId);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// get top channels
+export const getTopChannelsThunk = createAsyncThunk(
+  "followers/getTopChannels",
+  async (_, thunkApi) => {
+    try {
+      const response = await followersApi.getTopChannels();
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response?.data || error.message);
@@ -118,6 +132,19 @@ const followersSlice = createSlice({
         state.removeFollowers = action.payload;
       })
       .addCase(removeFollowing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+      
+      // top channels states
+      .addCase(getTopChannelsThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTopChannelsThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.topChannels = action.payload;
+      })
+      .addCase(getTopChannelsThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
       });

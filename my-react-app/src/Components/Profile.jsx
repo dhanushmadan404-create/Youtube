@@ -1,50 +1,72 @@
-import React from 'react'
-import SearchIcon from '@mui/icons-material/Search';
-import { TextField, InputAdornment } from "@mui/material";
+import React, { useRef } from 'react';
 import "../styles/Profile.css";
-import profile from "../assets/react.svg"
-import Banner from "../assets/profile.png"
-
+import profile from "../assets/react.svg";
+import Banner from "../assets/profile.png";
+import { createFollowers } from '../Redux/Slice/FollowerSlice';
 import Btn from './Btn';
-import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-function Profile({ data }) {
-  if (!data) {
-    return <h1>Loading</h1>
+function Profile({ data, fuc }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const searchRef = useRef();
+
+  async function addSub() {
+    try {
+      const action = await dispatch(createFollowers({ user_id: localStorage.getItem("userid"), fan_id: data._id }));
+      if (createFollowers.fulfilled.match(action)) {
+        console.log(action.payload);
+      } else {
+        console.log('error', action.error);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
-  const navigate = useNavigate()
+  if (!data) {
+    return <h1 className="loading-text">Loading...</h1>;
+  }
+
   return (
     <div className="profile">
-
       {/* Top Section */}
       <div className="profile-header">
-
         {/* Left Side - Channel Info */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div className="channel-info-container">
           <div className="channel-info">
-
             <div className="avatar">
-              <img src={data.profileImage ? data.profileImage : profile} alt="profile" />
+              <img src={data.profileImage ? data.profileImage : profile} alt={data.name} />
             </div>
 
             <div className="channel-details">
               <h1>{data.name}</h1>
-              <b>{data.email}</b>
-              <h4 className="subscribe">Subscribe</h4>
-              <button
-                className="customize-btn"
-                onClick={() => navigate("/editProfile", { state: data })}
-              >
-                Customize Channel
-              </button>
+              <p className="email-text">{data.email}</p>
+              
+              <div className="channel-actions">
+                {fuc ? (
+                  <button className="subscribe-btn disabled">Subscriber Count</button>
+                ) : (
+                  <button className="subscribe-btn" onClick={() => addSub()}>
+                    Subscribe
+                  </button>
+                )}
+                {fuc && (
+                  <button
+                    className="customize-btn"
+                    onClick={() => navigate("/editProfile", { state: data })}
+                  >
+                    Customize Channel
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-          <div>
-            <Typography variant="h5" content='h5' sx={{ color: "white" }} >
-              {data.description || "This is my channel description. Welcome to my channel!"}
-            </Typography>
+          <div className="description-container">
+            <p className="channel-description">
+              {data.description || "Welcome to my channel! Subscribe for more content."}
+            </p>
           </div>
         </div>
 
@@ -52,59 +74,30 @@ function Profile({ data }) {
         <div className="banner">
           <img src={data.bannerImage ? data.bannerImage : Banner} alt="banner" />
         </div>
-
       </div>
 
       {/* Bottom Section */}
       <div className="profile-actions">
-        <Btn Content={"Video"} />
+        <Btn Content={"Videos"} />
 
         <div className="search-box">
-          <TextField
-            placeholder="Search"
-            variant="outlined"
-            size="small"
-            sx={{
-              width: "600px",
-              backgroundColor: "black",
-              borderRadius: "40px",
-
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "40px",
-                color: "white",
-
-                "& fieldset": {
-                  borderColor: "white",
-                  borderWidth: "2px",
-                },
-
-                "&:hover fieldset": {
-                  borderColor: "#2196f3",
-                },
-
-                "&.Mui-focused fieldset": {
-                  borderColor: "#2196f3",
-                },
-              },
-
-              "& input::placeholder": {
-                color: "white",
-                opacity: 0.7,
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon sx={{ color: "white" }} />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <div className="search-wrapper">
+            <input
+              ref={searchRef}
+              type="text"
+              placeholder="Search channel"
+              className="custom-input"
+            />
+            <span className="search-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+              </svg>
+            </span>
+          </div>
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Profile
+export default Profile;

@@ -7,7 +7,7 @@ function VideoContainer({Data}) {
    
     if (!Data || !Array.isArray(Data) || Data.length === 0) {
  
-     return <div style={{color:"white"}}>Loading...</div>; // 👈 prevents crash
+     return <div style={{color:"white",position:"absolute",left:"48%",top:"70%"}}>No Video Uploaded </div>; // 👈 prevents crash
     }
 
 

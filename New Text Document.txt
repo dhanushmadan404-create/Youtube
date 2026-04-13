@@ -1,0 +1,166 @@
+You are a senior MERN stack developer. Help me complete my video sharing platform project.
+
+### ⚙️ Tech Stack
+
+* MongoDB, Express.js, React.js, Node.js
+* Axios for API calls
+* No Material UI (MUI)
+* Avoid alert() — use custom UI messages
+* Use useRef where needed to prevent unnecessary re-renders
+
+---
+
+## 🎥 VIDEO FEATURES
+
+### 1. CRUD Operations
+
+* Implement:
+
+  * Create Video (already done)
+  * Update Video
+  * Delete Video
+* Update and delete should reflect immediately in UI
+
+---
+
+### 2. Home Feed (Pagination + Age Restriction)
+
+* Show only 10 videos initially
+* Add "See More" button:
+
+  * Fetch next 10 videos using skip & limit (pagination)
+  * Use Axios API call
+* Apply age restriction filter (based on user age)
+* If no videos:
+
+  * Show message: "No videos uploaded"
+
+---
+
+### 3. Following Feed
+
+* Remove category filter
+* Show videos only from users that current user follows
+
+---
+
+### 4. Profile Page
+
+* If logged-in user:
+
+  * Show their uploaded videos
+* If visiting another user:
+
+  * Show that user's uploaded videos
+
+---
+
+### 5. Video View Count
+
+* When user clicks a video:
+
+  * Increment view count in backend
+  * Update UI
+
+---
+
+### 6. Subscribe / Follow System
+
+* Create toggle button:
+
+  * "Subscribe" → follow user
+  * "Unsubscribe" → unfollow user
+* Clicking same button again should reverse action
+
+---
+
+### 7. Share Feature
+
+* Add share button in video screen:
+
+  * Copy video link to clipboard
+
+---
+
+### 8. Comments System
+
+* Add input field
+* Features:
+
+  * Add comment (POST)
+  * Delete comment (DELETE)
+* Show comments list below video
+
+---
+
+### 9. Recommended Videos
+
+* Under video player:
+
+  * Show videos based on:
+
+    * Same category OR
+    * Similar title keywords
+
+---
+
+### 10. Description Toggle
+
+* Show short description initially
+* Add "Show More / Show Less" toggle
+
+---
+
+### 11. Search Feature (Backend Driven)
+
+* User types in search bar
+* Fetch results from backend using query
+* Do NOT filter on frontend
+
+---
+
+### 12. Sidebar + Top Channels
+
+* Show top 5 channels based on follower count
+* Display:
+
+  * Sidebar
+  * Home page
+
+---
+
+## 🎁 BONUS REQUIREMENTS
+
+* No MUI
+* No alert()
+* Optimize performance:
+
+  * Avoid unnecessary re-renders
+  * Use useRef where needed
+
+---
+
+## 📦 EXPECTED OUTPUT
+
+* Clean folder structure
+* Backend:
+
+  * Routes
+  * Controllers
+  * Models
+* Frontend:
+
+  * Components
+  * Axios services
+  * State management (basic)
+
+---
+
+Generate:
+
+1. Backend APIs (Express + MongoDB)
+2. Frontend components (React)
+3. Axios integration
+4. Clean and optimized code
+
+Make sure code is production-level and scalable.

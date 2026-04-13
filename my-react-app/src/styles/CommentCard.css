@@ -1,7 +1,42 @@
-.CommentCard{
-    @apply w-[75dvw] h-[20dvh] border-[#b9babd] border-[2px] shadow-[0_0_20px_rgba(106,13,173,0.9)] rounded-[5px]
-    flex flex-col gap-[10px] p-[10px] overflow-y-auto
+.CommentCard {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
 }
-.CommentCard div{
-    @apply flex items-center gap-[10px]
+
+.CommentCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--purple-accent);
+}
+
+.CommentCard .user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.CommentCard .user-info img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.CommentCard .user-info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--purple-accent);
+}
+
+.CommentCard .comment-text {
+  font-size: 14px;
+  color: var(--text-main);
+  line-height: 1.5;
+  white-space: pre-wrap;
 }

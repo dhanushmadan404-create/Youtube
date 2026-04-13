@@ -13,79 +13,105 @@ class Video {
   //createVideo
   // get all videos
   videoCreate = async (body) => {
-    try {
-      const response = await axios.post(`${this.api}/video`,body, {
-        headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.post(`${this.api}/video`, body, {
+      headers: this.headers,
+    });
+    return response;
   };
 
-  // get all videos
-  videoRandom = async () => {
-    try {
-      const response = await axios.get(`${this.api}/video/`, {
+  // get all videos (with pagination and age restriction)
+  videoPaginated = async (skip = 0, limit = 10, age = null) => {
+    const response = await axios.get(`${this.api}/video/`, {
+      params: { skip, limit, age },
+      headers: this.headers,
+    });
+    return response;
+  };
+
+  // search videos
+  searchVideos = async (query) => {
+    const response = await axios.get(`${this.api}/video/search`, {
+      params: { q: query },
+      headers: this.headers,
+    });
+    return response;
+  };
+
+  // get following feed
+  followingFeed = async (followerId) => {
+    const response = await axios.get(
+      `${this.api}/video/following/${followerId}`,
+      {
         headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+      },
+    );
+    return response;
+  };
+
+  // get recommended videos
+  recommendedVideos = async (videoId, category, title) => {
+    const response = await axios.get(
+      `${this.api}/video/recommended/${videoId}`,
+      {
+        params: { category, title },
+        headers: this.headers,
+      },
+    );
+    return response;
+  };
+
+  // increment view count
+  incrementView = async (videoId) => {
+    const response = await axios.patch(
+      `${this.api}/video/view/${videoId}`,
+      {},
+      {
+        headers: this.headers,
+      },
+    );
+    return response;
+  };
+
+  // get all videos (original random call, keeping for compatibility if used elsewhere)
+  videoRandom = async () => {
+    const response = await axios.get(`${this.api}/video/`, {
+      headers: this.headers,
+    });
+    return response;
   };
 
   // get videos by category
   videoByCategory = async (category) => {
-    try {
-      const response = await axios.get(
-        `${this.api}/video/${category}`,
-        { headers: this.headers }
-      );
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  };
+    const response = await axios.get(`${this.api}/video/cat/${category}`, {
+      headers: this.headers,
+    });
+    return response;
+  };  
 
   // get videos by user
   videoByUser = async (userId) => {
-    try {
-      const response = await axios.get(
-        `${this.api}/video/user/${userId}`,
-        { headers: this.headers }
-      );
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.get(`${this.api}/video/user/${userId}`, {
+      headers: this.headers,
+    });
+    return response;
   };
 
   // remove video
   removeVideo = async (videoId) => {
-    try {
-      const response = await axios.delete(
-        `${this.api}/video/remove/${videoId}`,
-        { headers: this.headers }
-      );
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.delete(`${this.api}/video/remove/${videoId}`, {
+      headers: this.headers,
+    });
+    return response;
   };
 
   // update video
   updateVideo = async (videoId, body) => {
-    try {
-      const response = await axios.put(
-        `${this.api}/video/updateVideo/${videoId}`,
-        body,
-        { headers: this.headers }
-      );
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.put(
+      `${this.api}/video/updateVideo/${videoId}`,
+      body,
+      { headers: this.headers },
+    );
+    return response;
   };
 }
 

@@ -1,7 +1,27 @@
 .MainContent {
-  margin-top: 60px;   /* navbar height */
-  margin-left: 60px;  /* collapsed sidebar width */
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-  z-index: -2;
+  margin-top: var(--nav-height);
+  margin-left: var(--sidebar-collapsed);
+  padding: 40px;
+  min-height: calc(100vh - var(--nav-height));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--bg-deep);
+}
+
+/* When sidebar is active */
+.MainContent.active {
+  margin-left: var(--sidebar-width);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .MainContent {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .MainContent {
+    margin-left: 0 !important;
+    padding: 16px;
+  }
 }

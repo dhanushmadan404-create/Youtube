@@ -3,7 +3,8 @@ import {
   UserPost,
   UpdateUser,
   GetByEmail,
-  GetByUserId
+  GetByUserId,
+  GetTopChannels
 } from "../service/user.js";
 import { Hashing, Verify } from "../helper/auth.helper.js";
 import { Generate } from "../helper/jwt.helper.js";
@@ -12,17 +13,21 @@ import { ObjectId } from "mongodb";
 // JWT Verification
 import { VerifyJwt } from "../helper/jwt.helper.js";
 
+export const TopChannels = async (req, res) => {
+  const result = await GetTopChannels();
+  res.json(result);
+};
+
 export const UserAll = async (req, res) => {
   const result = await GetUserAll();
   res.json(result);
 };
 export const PostUser = async (req, res) => {
-  console.log(req.body);
   const { name, email, password, profile_img, banner_img, description, age } =
     req.body;
   const check = await GetByEmail(email);
   if (check) {
-    return { status: false, message: "already registered" };
+    return res.json({ status: false, message: "already registered" });
   } else {
     const HashedPassword = await Hashing(password);
 
@@ -36,7 +41,7 @@ export const PostUser = async (req, res) => {
       age: age,
     };
     const result = await UserPost(Body);
-    res.json(result);
+    res.json({ status: true, message: "Registration successful", data: result });
   }
 };
 

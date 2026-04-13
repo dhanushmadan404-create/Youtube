@@ -1,22 +1,26 @@
 .profile {
   width: 100%;
-  padding: 20px 40px;
-  font-family: Arial, Helvetica, sans-serif;
-  border-style:groove ;
+  padding: 40px;
+  background: var(--bg-deep);
+  color: white;
 }
 
-/* Header Layout */
 .profile-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 32px;
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
 }
 
-/* Channel Info Left */
 .channel-info {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
 .avatar img {
@@ -24,62 +28,114 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
+  border: 4px solid var(--purple-main);
+  box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
 }
 
-/* Channel Text */
 .channel-details h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, var(--purple-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin: 0;
-  font-size: 26px;
-  color: white;
 }
 
 .channel-details b {
-  color: gray;
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
-.subscribe {
-  color: #cc0000;
-  margin: 8px 0;
-  cursor: pointer;
+.subscribe-label {
+  color: var(--purple-accent);
+  margin: 12px 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
 }
 
-.customize-btn {
-  padding: 8px 16px;
+.subscribe-btn {
+  margin-top: 12px;
+  padding: 10px 24px;
+  background: var(--purple-accent);
+  color: white;
   border: none;
-  background-color: #f1f1f1;
   border-radius: 20px;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: 500;
+  transition: all 0.3s;
 }
 
-.customize-btn:hover {
-  background-color: #e2e2e2;
+.subscribe-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
 }
 
-/* Banner Right */
+.banner {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+}
+
 .banner img {
-  width: 600px;
+  width: 100%;
   height: 200px;
-  border-radius: 12px;
+  border-radius: 20px;
   object-fit: cover;
+  border: 1px solid var(--glass-border);
 }
 
-/* Bottom Section */
+.channel-description {
+  margin-top: 24px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 800px;
+  font-size: 15px;
+}
+
 .profile-actions {
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 4px solid rgb(175, 66, 243);
-  padding: 10px;
-
+  border-top: 1px solid var(--border-color);
+  padding-top: 24px;
 }
 
-
-
-.search-box {
-  display: flex;
-  align-items: center;
+@media (max-width: 1024px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   
+  .banner {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile {
+    padding: 16px;
+  }
   
+  .profile-header {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .channel-info {
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+  
+  .search-wrapper .custom-input {
+    width: 100% !important;
+  }
 }

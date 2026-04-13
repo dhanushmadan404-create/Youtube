@@ -1,96 +1,100 @@
-import { useState } from "react"
-import category from "../assets/react.svg"
-import "../styles/SideBar.css"
-import Btn from "./Btn"
-import { IconButton, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import typography from "@mui/material/Typography"
-import CardLabel from "./CardLabel";
-import gameIcon from "../assets/gamingLogo.png"
-import entertainmentLogo from "../assets/entertainment.png"
-import edu from "../assets/education.png"
+import React from "react";
+import reactLogo from "../assets/react.svg";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getTopChannelsThunk } from "../Redux/Slice/FollowerSlice";
+import "../styles/SideBar.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import { faRss } from '@fortawesome/free-solid-svg-icons'
 
-import tech from "../assets/tech.png"
-function SideBar() {
-    const [open, Setopen] = useState(false)
-    const navigate=useNavigate()
-    
-    return (
-        <div className={open ? "Side active" : "Side"}>
-            <div className="Align">
+// icons
+import gameIcon from "../assets/gamingLogo.png";
+import entertainmentLogo from "../assets/entertainment.png";
+import edu from "../assets/edu.png";
+import tech from "../assets/tech.png";
 
-                <IconButton onClick={() => Setopen(!open)}>
-                    <MenuIcon />
-                </IconButton>
+function SideBar({ isActive }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-            </div>
+  const topChannels =
+    useSelector((state) => state.followers?.topChannels) || [];
 
-            <div className="HeadAlign"><img src={category} alt="This is logo" /> <div> 
-                <Typography variant="h4" component="div" sx={{
-                flexGrow: 1, transition: "opacity 0.3s ease",
-                whiteSpace: "nowrap",
-                overflow: "hidden", opacity: open ? 1 : 0,
-                opacity: open ? 1 : 0, color: "white",
-                width: open ? "auto" : 0
-            }}>
-                Category
-            </Typography></div></div>
-            <div className="Category">
-                
-             <CardLabel content={"Education"} open={open} img={edu} fuc={()=>{navigate("/category?type=Education")}}/>
-<CardLabel content={"Technology"} open={open} img={tech}  fuc={()=>{navigate("/category?type=Technology")}}/>
-<CardLabel content={"Gaming"} open={open} img={gameIcon}  fuc={()=>{navigate("/category?type=Gaming")}}/>
-<CardLabel content={"Entertainment"} open={open} img={entertainmentLogo} fuc={()=>{navigate("/category?type=Entertainment")}}/>
-              
-            </div>
+  React.useEffect(() => {
+    dispatch(getTopChannelsThunk());
+  }, [dispatch]);
 
-            <div className="HeadAlign"><img src={category} alt="This is logo" /> <div> <Typography variant="h4" component="div" sx={{
-                flexGrow: 1, transition: "opacity 0.3s ease",cursor:"pointer",
-                whiteSpace: "nowrap",
-                overflow: "hidden", width: open ? "auto" : 0,opacity: open ? 1 : 0, color: "white"
-            }}>
-                Channel
-            </Typography></div></div>
-            <div className="Category">
-                <div className="Align"><img src={category} alt="This is logo" /><div> <Typography variant="h5" component="div" sx={{
-                    flexGrow: 1, transition: "opacity 0.3s ease",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden", width: open ? "auto" : 0,opacity: open ? 1 : 0, color: "white"
-                }}>
-                    Channel
-                </Typography></div></div>
-                <div className="Align"><img src={category} alt="This is logo" /><div> <Typography variant="h5" component="div" sx={{
-                    flexGrow: 1, transition: "opacity 0.3s ease",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",width: open ? "auto" : 0, opacity: open ? 1 : 0, color: "white"
-                }}>
-                    Channel
-                </Typography></div></div>
-                <div className="Align"><img src={category} alt="This is logo" /> <div> <Typography variant="h5" component="div" sx={{
-                    flexGrow: 1, transition: "opacity 0.3s ease",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",width: open ? "auto" : 0, opacity: open ? 1 : 0, color: "white"
-                }}>
-                    Channel
-                </Typography></div></div>
-                <div className="Align"><img src={category} alt="This is logo" /> <div> <Typography variant="h5" component="div" sx={{
-                    flexGrow: 1, transition: "opacity 0.3s ease",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",width: open ? "auto" : 0, opacity: open ? 1 : 0, color: "white"
-                }}>
-                    Channel
-                </Typography></div></div>
-                <div className="Align"><img src={category} alt="This is logo" /> <div> <Typography variant="h5" component="div" sx={{
-                    flexGrow: 1, transition: "opacity 0.3s ease",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",width: open ? "auto" : 0, opacity: open ? 1 : 0, color: "white"
-                }}>
-                    Channel
-                </Typography></div></div>
-            </div>
+  const sidebarItems = [
+    { icon: gameIcon, label: "Gaming", path: "/category?type=Gaming" },
+    { icon: entertainmentLogo, label: "Entertainment", path: "/category?type=Entertainment" },
+    { icon: edu, label: "Education", path: "/category?type=Education" },
+    { icon: tech, label: "Technology", path: "/category?type=Technology" },
+  ];
+
+  return (
+    <aside className={`Side ${isActive ? "active" : ""}`}>
+      <div
+        className="HeadAlign"
+         onClick={() => navigate("/category?type=Gaming")}
+      ><div className="logo">
+
+<FontAwesomeIcon icon={faLayerGroup} size="2x" />
+      </div>
+        <span className="typography-body1">Category</span >
+      </div>
+      <div className="Category">
+        {sidebarItems.map((item, index) => (
+          <div
+            key={index}
+            className="HeadAlign"
+            onClick={() => navigate(item.path)}
+          >
+            <img
+              className="logo"
+              src={item.icon}
+              alt={item.label}
+              title={item.label}
+            />
+            <span className="typography-body1">{item.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Subscribed header */}
+      <div
+        className="HeadAlign"
+      >
+        <div>
+
+      <FontAwesomeIcon icon={faRss} size="2x" />
         </div>
-    )
+        <span className="typography-body1">Channel</span>
+      </div>
+
+      {/* Channels */}
+      <div className="Category">
+        {topChannels.map((channel, index) => (
+          <div
+            key={index}
+            className="Align"
+            onClick={() =>
+              navigate("/profile", {
+                state: { User_id: channel.user_id },
+              })
+            }
+          >
+            <img
+              src={channel.profileImage || reactLogo}
+              alt={channel.name}
+              className="profileImg"
+            />
+            <span className="typography-body1">{channel.name}</span>
+          </div>
+        ))}
+      </div>
+    </aside>
+  );
 }
 
-export default SideBar
+export default SideBar;

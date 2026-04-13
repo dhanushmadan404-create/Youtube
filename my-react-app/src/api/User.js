@@ -13,75 +13,51 @@ class User {
   // create user
   userCreate = async (body) => {
     console.log(body);
-    try {
-      const response = await axios.post(`${this.api}/user/`, body, {
-        headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.post(`${this.api}/user/`, body, {
+      headers: this.headers,
+    });
+    return response;
   };
 
   // get user by email
   getByEmail = async (email) => {
-    try {
-      const response = await axios.get(`${this.api}/user/${email}`, {
-        headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.get(`${this.api}/user/${email}`, {
+      headers: this.headers,
+    });
+    return response;
   };
 
-    // get user by User_id
+  // get user by User_id
   getByUserId = async (Id) => {
-    try {
-      const response = await axios.get(`${this.api}/user/id/${Id}`, {
-        headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.get(`${this.api}/user/id/${Id}`, {
+      headers: this.headers,
+    });
+    return response;
   };
 
   // login user
   login = async (body) => {
-    try {
-      const response = await axios.post(`${this.api}/user/login`, body, {
-        headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.post(`${this.api}/user/login`, body, {
+      headers: this.headers,
+    });
+    return response;
   };
 
   // update user
   updateUser = async (userId, body) => {
-    try {
-      const response = await axios.put(
-        `${this.api}/user/update/${userId}`,
-        body,
-        { headers: this.headers },
-      );
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.put(
+      `${this.api}/user/update/${userId}`,
+      body,
+      { headers: this.headers },
+    );
+    return response;
   };
   // get me
   me = async () => {
-    try {
-      const response = await axios.get(`${this.api}/user/me`, {
-        headers: this.headers,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await axios.get(`${this.api}/user/me`, {
+      headers: this.headers,
+    });
+    return response;
   };
 }
 

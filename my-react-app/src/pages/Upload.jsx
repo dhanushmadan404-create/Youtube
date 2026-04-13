@@ -2,34 +2,34 @@ import React, { useState } from "react";
 import * as YUP from "yup";
 import { useFormik } from "formik";
 import "../styles/Upload.css";
-// Image
 import imageFrame from '../assets/ImageFrame.png'
 import VideoFrame from "../assets/VideoFrame.png"
-
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { MenuItem, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CreateVideo } from "../Redux/Slice/VIdeoSlice";
+import { Cloud } from "../api/AssetsUpload";
 
-import Cloud from "../api/AssetsUpload";
 function Upload() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [videoPreview, setVideoPreview] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   const UploadSchemas = YUP.object({
     videoFile: YUP.mixed().required("Video is required"),
-    Title: YUP.string().required().min(6).max(20),
-    Description: YUP.string().required().min(5).max(200),
-    Thumbnail: YUP.mixed().required("Image is required"),
-    Category: YUP.string().required(),
-    Restriction: YUP.string().required()
+    Title: YUP.string().required("Title is required").min(6).max(100),
+    Description: YUP.string().required("Description is required").min(5).max(1000),
+    Thumbnail: YUP.mixed().required("Thumbnail is required"),
+    Category: YUP.string().required("Category is required"),
+    Restriction: YUP.string().required("Age restriction is required")
   });
+
+  const showStatus = (msg) => {
+    setStatusMessage(msg);
+    setTimeout(() => setStatusMessage(""), 5000);
+  };
 
   const UploadForm = useFormik({
     initialValues: {
@@ -38,56 +38,51 @@ function Upload() {
       Description: "",
       Thumbnail: "",
       Category: "",
-      Restriction: ""
+      Restriction: "all"
     },
-
     validationSchema: UploadSchemas,
-
     onSubmit: async (values, { resetForm }) => {
-      try{
-        const User_id = localStorage.getItem("userid")
-        console.log(values.videoFile)
-        let video=await Cloud(values.videoFile)
-        let thumb=await Cloud(values.Thumbnail)
-      const body = {
-        user_id: User_id,
-        video_url: video,
-        title: values.Title,
-        thumbnail:  thumb,
-        description: values.Description,
-        category: values.Category,
-        restriction: values.Restriction,
-      }
-      console.log(body)
+      setIsUploading(true);
       try {
-        const Response = await dispatch(CreateVideo({ body: body })).unwrap()
-        console.log(Response)
+        const User_id = localStorage.getItem("userid")
+        let video = await Cloud(values.videoFile)
+        let thumb = await Cloud(values.Thumbnail)
+        const body = {
+          user_id: User_id,
+          video_url: video,
+          title: values.Title,
+          thumbnail: thumb,
+          description: values.Description,
+          category: values.Category,
+          restriction: values.Restriction,
+        }
+        
+        await dispatch(CreateVideo({ body: body })).unwrap();
+        showStatus("Video uploaded successfully!");
+        resetForm();
+        setVideoPreview(null);
+        setImagePreview(null);
+        setTimeout(() => navigate("/dashboard"), 2000);
       } catch (err) {
-        console.log(err)
+        console.error(err);
+        showStatus(err.message || "Failed to upload video");
+      } finally {
+        setIsUploading(false);
       }
-    }catch(err){
-      console.log(err)
-    }
-
-      resetForm()
     }
   });
 
-  // VIDEO CHANGE
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     UploadForm.setFieldValue("videoFile", file);
-
     if (file) {
       setVideoPreview(URL.createObjectURL(file));
     }
   };
 
-  // IMAGE CHANGE
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     UploadForm.setFieldValue("Thumbnail", file);
-
     if (file) {
       setImagePreview(URL.createObjectURL(file));
     }
@@ -95,145 +90,160 @@ function Upload() {
 
   return (
     <div className="UploadContainer">
-
-      {/* LEFT SIDE FORM */}
+      {statusMessage && (
+        <div className="status-toast" style={{
+          position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+          background: statusMessage.includes('success') ? '#4caf50' : '#ff4444',
+          color: 'white', padding: '10px 20px', borderRadius: '5px', zIndex: 1000
+        }}>
+          {statusMessage}
+        </div>
+      )}
 
       <div className="UploadLeft">
-
-        <div className="Header">
-          <Typography variant="h4">Upload Video</Typography>
-
-
-          <Button onClick={() => {
-            navigate(-1)
-          }} variant="contained">
-            Close
-          </Button>
-
+        <div className="Header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h1 className="typography-h4">Upload Video</h1>
+          <button className="custom-btn" onClick={() => navigate(-1)}>Close</button>
         </div>
 
-        <Box
-          component="form"
-          className="UploadForm"
-          onSubmit={UploadForm.handleSubmit}
-        >
+        <form className="UploadForm" onSubmit={UploadForm.handleSubmit}>
+          <div className="input-group">
+            <label className="typography-body1">Select Video</label>
+            <input
+              type="file"
+              name="videoFile"
+              accept="video/*"
+              onChange={handleVideoChange}
+              className={`custom-input ${UploadForm.touched.videoFile && UploadForm.errors.videoFile ? 'error' : ''}`}
+            />
+            {UploadForm.touched.videoFile && UploadForm.errors.videoFile && (
+              <span className="error-text">{UploadForm.errors.videoFile}</span>
+            )}
+          </div>
 
-          {/* VIDEO */}
-          <TextField
-            type="file"
-            name="videoFile"
+          <div className="input-group">
+            <label className="typography-body1">Title</label>
+            <input
+              type="text"
+              name="Title"
+              placeholder="Give your video a title"
+              className={`custom-input ${UploadForm.touched.Title && UploadForm.errors.Title ? 'error' : ''}`}
+              value={UploadForm.values.Title}
+              onChange={UploadForm.handleChange}
+              onBlur={UploadForm.handleBlur}
+            />
+            {UploadForm.touched.Title && UploadForm.errors.Title && (
+              <span className="error-text">{UploadForm.errors.Title}</span>
+            )}
+          </div>
 
-            inputProps={{ accept: "video/*" }}
-            onChange={handleVideoChange}
-            className="Input"
-          />
+          <div className="input-group">
+            <label className="typography-body1">Description</label>
+            <textarea
+              name="Description"
+              placeholder="Tell viewers about your video"
+              rows={4}
+              className={`custom-input ${UploadForm.touched.Description && UploadForm.errors.Description ? 'error' : ''}`}
+              value={UploadForm.values.Description}
+              onChange={UploadForm.handleChange}
+              onBlur={UploadForm.handleBlur}
+              style={{ resize: 'vertical' }}
+            />
+            {UploadForm.touched.Description && UploadForm.errors.Description && (
+              <span className="error-text">{UploadForm.errors.Description}</span>
+            )}
+          </div>
 
-          {/* TITLE */}
+          <div className="input-group">
+            <label className="typography-body1">Thumbnail</label>
+            <input
+              type="file"
+              name="Thumbnail"
+              accept="image/*"
+              onChange={handleImageChange}
+              className={`custom-input ${UploadForm.touched.Thumbnail && UploadForm.errors.Thumbnail ? 'error' : ''}`}
+            />
+            {UploadForm.touched.Thumbnail && UploadForm.errors.Thumbnail && (
+              <span className="error-text">{UploadForm.errors.Thumbnail}</span>
+            )}
+          </div>
 
-          <TextField
-            label="Title"
-            name="Title"
-            className="Input"
-            value={UploadForm.values.Title}
-            onChange={UploadForm.handleChange}
-          />
+          <div className="input-group">
+            <label className="typography-body1">Category</label>
+            <select
+              name="Category"
+              className={`custom-input ${UploadForm.touched.Category && UploadForm.errors.Category ? 'error' : ''}`}
+              value={UploadForm.values.Category}
+              onChange={UploadForm.handleChange}
+              onBlur={UploadForm.handleBlur}
+            >
+              <option value="">Select a category</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Technology">Technology</option>
+              <option value="Gaming">Gaming</option>
+            </select>
+            {UploadForm.touched.Category && UploadForm.errors.Category && (
+              <span className="error-text">{UploadForm.errors.Category}</span>
+            )}
+          </div>
 
-          {/* DESCRIPTION */}
+          <div className="input-group">
+            <label className="typography-body1">Age Restriction</label>
+            <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
+              <label style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="Restriction"
+                  value="all"
+                  checked={UploadForm.values.Restriction === "all"}
+                  onChange={UploadForm.handleChange}
+                /> All Ages
+              </label>
+              <label style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="Restriction"
+                  value="18+"
+                  checked={UploadForm.values.Restriction === "18+"}
+                  onChange={UploadForm.handleChange}
+                /> 18+ Only
+              </label>
+            </div>
+          </div>
 
-          <TextField
-            label="Description"
-            name="Description"
-            multiline
-            rows={4}
-            className="Input"
-            value={UploadForm.values.Description}
-            onChange={UploadForm.handleChange}
-          />
-
-          {/* THUMBNAIL */}
-
-          <TextField
-            type="file"
-            name="Thumbnail"
-            inputProps={{ accept: "image/*" }}
-            onChange={handleImageChange}
-            className="Input"
-          />
-
-          {/* CATEGORY */}
-
-          <TextField
-            label="Category"
-            name="Category"
-            select
-            className="Input"
-            value={UploadForm.values.Category}
-            onChange={UploadForm.handleChange}
+          <button 
+            type="submit" 
+            className="custom-btn LaunchBtn" 
+            disabled={isUploading}
+            style={{ marginTop: '30px', width: '100%', opacity: isUploading ? 0.6 : 1 }}
           >
-            <MenuItem value="education">Education</MenuItem>
-            <MenuItem value="entertainment">Entertainment</MenuItem>
-            <MenuItem value="technology">Technology</MenuItem>
-            <MenuItem value="gaming">Gaming</MenuItem>
-          </TextField>
-
-          {/* AGE RESTRICTION */}
-
-          <FormLabel sx={{ color: "white" }} className="RadioLabel">Age Restriction</FormLabel>
-
-          <RadioGroup
-            name="Restriction"
-            value={UploadForm.values.Restriction}
-            onChange={UploadForm.handleChange}
-          >
-            <FormControlLabel value="all" control={<Radio />} label="All Ages" />
-            <FormControlLabel value="18+" control={<Radio />} label="18+ Only" />
-          </RadioGroup>
-
-          <Button type="submit" variant="contained" className="LaunchBtn">
-            Launch
-          </Button>
-
-        </Box>
+            {isUploading ? "Uploading..." : "Launch Video"}
+          </button>
+        </form>
       </div>
 
-
-      {/* RIGHT SIDE PREVIEW */}
-
       <aside className="UploadRight">
-
-        {videoPreview ? (
-          <video
-            src={videoPreview}
-            controls
-            className="VideoPreview"
-
-          />
-        ) : <img
-          src={VideoFrame}
-          alt="Thumbnail Preview"
-          className="VideoPreview"
-        />}
-        <div className="Thumbnail">
-
-          {imagePreview ? (
-            <img
-              src={imagePreview}
-              alt="Thumbnail Preview"
-              className="ImagePreview"
-            />
-          ) : <img
-            src={imageFrame}
-            alt="Thumbnail Preview"
-            className="ImagePreview"
-          />}
-          <Typography sx={{ fontFamily: "Poppins", }} className="ThumbnailText" variant="h1">Thumbnail</Typography>
-
+        <div style={{ padding: '0 20px' }}>
+          <h3 className="typography-body1" style={{ color: 'var(--brand-color)', marginBottom: '10px' }}>Video Preview</h3>
+          {videoPreview ? (
+            <video src={videoPreview} controls className="VideoPreview" />
+          ) : (
+            <img src={VideoFrame} alt="Placeholder" className="VideoPreview" />
+          )}
+          
+          <div className="Thumbnail" style={{ marginTop: '20px' }}>
+            <h3 className="typography-body1" style={{ color: 'var(--brand-color)', marginBottom: '10px' }}>Thumbnail Preview</h3>
+            {imagePreview ? (
+              <img src={imagePreview} alt="Preview" className="ImagePreview" />
+            ) : (
+              <img src={imageFrame} alt="Placeholder" className="ImagePreview" />
+            )}
+          </div>
         </div>
-
       </aside>
-
     </div>
   );
 }
 
-export default Upload;
+export default Upload;

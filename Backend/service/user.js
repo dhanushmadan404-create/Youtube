@@ -50,3 +50,38 @@ export const UpdateUser = async (Userid, updateData) => {
   );
   return result;
 };
+
+export const GetTopChannels = async () => {
+  const DB = await getDb();
+  const result = await DB.collection("followers")
+    .aggregate([
+      {
+        $group: {
+          _id: "$user_id",
+          followerCount: { $sum: 1 },
+        },
+      },
+      { $sort: { followerCount: -1 } },
+      { $limit: 5 },
+      {
+        $lookup: {
+          from: "User",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      { $unwind: "$userInfo" },
+      {
+        $project: {
+          _id: 1,
+          followerCount: 1,
+          name: "$userInfo.name",
+          profileImage: "$userInfo.profileImage",
+          description: "$userInfo.description",
+        },
+      },
+    ])
+    .toArray();
+  return result;
+};

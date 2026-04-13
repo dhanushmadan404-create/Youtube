@@ -4,7 +4,7 @@ import profile from "../assets/react.svg"
 import Banner from "../assets/profile.png"
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useFormik } from 'formik'
-import Cloud from '../api/AssetsUpload'
+import {Cloud} from '../api/AssetsUpload'
 import { useDispatch } from 'react-redux'
 import { updateUser } from '../Redux/Slice/UserSlice'
 import * as YUP from "yup"

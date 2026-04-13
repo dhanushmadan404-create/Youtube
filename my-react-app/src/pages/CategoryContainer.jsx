@@ -1,34 +1,44 @@
-import React from 'react'
-import VideoContainer from "../Components/VideoContainer"
-import CategoryBlock from '../Components/CategoryBlock'
-import Typography from '@mui/material/Typography'
-import "../styles/CategoryContainer.css"
-import { useSearchParams } from 'react-router-dom'
-function CategoryContain() {
-    const [searchParams]=useSearchParams()
-    const name=searchParams.get("type")
+import React from "react";
+import VideoContainer from "../Components/VideoContainer";
+import CategoryBlock from "../Components/CategoryBlock";
+import Typography from "@mui/material/Typography";
+import "../styles/CategoryContainer.css";
+import { useSearchParams } from "react-router-dom";
+import { getVideoByCategory } from "../Redux/Slice/VIdeoSlice";
+import { useSelector, useDispatch } from "react-redux";
 
-    const [cateName, setCateName] = React.useState()
-    return (
-        <div>
-            <div className='catHeader'>
-                <div>
+function CategoryContainer() {
+  const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
 
-                    <Typography variant='h3' component="h4">
-                        Category
-                    </Typography>
-                </div>
-                <div>
+  const [cateName, setCateName] = React.useState("");
+  const cateVideo =
+    useSelector((state) => state.video?.cateVideo) || [];
 
-                    <Typography variant='h3' component="h4">
-                       {name}
-                    </Typography>
-                </div>
-            </div>
-            <CategoryBlock />
-            <VideoContainer />
-        </div>
-    )
+  React.useEffect(() => {
+    const name = searchParams.get("type");
+
+    if (name) {
+      setCateName(name);
+     dispatch(getVideoByCategory({ category: name }));
+    }
+}, [searchParams, dispatch]);
+
+console.log(cateVideo)
+  return (
+    <div>
+      <div className="catHeader">
+        <Typography variant="h3">Category</Typography>
+
+        <Typography variant="h3">{cateName}</Typography>
+      </div>
+
+      <CategoryBlock />
+
+      {/* Pass category videos properly */}
+      <VideoContainer Data={cateVideo} />
+    </div>
+  );
 }
 
-export default CategoryContain
+export default CategoryContainer;

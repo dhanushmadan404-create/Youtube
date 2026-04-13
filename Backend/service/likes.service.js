@@ -11,22 +11,21 @@ export const likesPost = async (body) => {
       };
     }
   } catch (err) {
+    if (err.code === 11000) {
+      return "Already liked this video";
+    }
     console.log(err);
     return err;
   }
 };
 
-export const likesGet = async (videoId) => {
+export const likesGet = async (video_id) => {
   try {
     const DB = await getDb();
-    const Result = await DB.collection("Likes")
-      .countDocuments({ video_id: videoId })
-    if (Result) {
-      return {
-        Message: "successFully get total like",
-        result: Result,
-      };
-    }
+    const Result = await DB.collection("Likes").countDocuments({
+      video_id: video_id,
+    });
+    return Result;
   } catch (err) {
     console.log(err);
     return err;
@@ -51,6 +50,21 @@ export const videoByLike = async (userid) => {
         },
       ])
       .toArray();
+    return Result;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+export const likesCheck = async (userId, videoId) => {
+  try {
+    const DB = await getDb();
+    const Result = await DB.collection("Likes").findOne({
+      video_id: videoId,
+      user_id: userId,
+    });
+    return Result
   } catch (err) {
     console.log(err);
     return err;

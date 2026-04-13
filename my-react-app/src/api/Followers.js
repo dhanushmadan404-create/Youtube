@@ -63,6 +63,19 @@ class Followers {
       throw error;
     }
   };
+
+  // get top channels by follower count
+  getTopChannels = async () => {
+    try {
+      const response = await axios.get(
+        `${this.api}/followers/top-channels`,
+        { headers: this.headers }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 const followersApi = new Followers();

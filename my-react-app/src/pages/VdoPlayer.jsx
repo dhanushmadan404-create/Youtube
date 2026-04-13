@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Screen from '../Components/Screen'
 import Label from '../Components/Label'
 import VideoContainer from '../Components/VideoContainer'
@@ -7,66 +6,57 @@ import { useSelector, useDispatch } from 'react-redux'
 import '../styles/VideoPlayer.css'
 import Comments from '../Components/Comments.jsx';
 import { useLocation } from 'react-router-dom'
-import { getVideoLikes } from '../Redux/Slice/LikesSlice'
-import { createLikes } from '../Redux/Slice/LikesSlice'
+import { incrementViewCountThunk, getRecommendedVideos } from '../Redux/Slice/VIdeoSlice'
 
 function VdoPlayer() {
   const location = useLocation()
-  const status = useSelector((state) => state.likes.likesCreate)
-
   const dispatch = useDispatch()
-  const Data = useSelector((state) => state.Data)
-  const [On, Seton] = useState(false)
-  const [ScreenData, SetData] = useState(false)
-  const [totalLikes, SetTotalLikes] = useState(false)
+  const recommendedVideos = useSelector((state) => state.video.recommendedVideos)
+  const [showComments, setShowComments] = useState(false)
+  const [videoData, setVideoData] = useState(location.state || null)
 
+  useEffect(() => {
+    if (location.state) {
+      const data = location.state;
+      setVideoData(data);
+      
+      // 1. Increment view count
+      if (data.item?._id) {
+        dispatch(incrementViewCountThunk(data.item._id));
+      }
 
-  // Add likes
-  async function AddLike(user_id, video_id) {
-    try {
-      console.log("Started with:", user_id, video_id)
-      const body = { user_id: user_id, video_id: video_id }
-      console.log("Sending body:", body)
-      const result = await dispatch(createLikes({ body: body })).unwrap()
-      console.log("Success:", result)
-
-    } catch (err) {
-      console.log("Error:", err)
-    }
-  }
-
-  React.useEffect(() => {
-
-    async function fetchLikes() {
-      if (Data && Data.item && Data.item._id) {
-        SetTotalLikes(await dispatch(getVideoLikes({ videoId: Data.item._id })).unwrap())
-        console.log(`hello:${totalLikes}`)
+      // 2. Fetch recommended videos
+      if (data.item?._id && data.item?.category) {
+        dispatch(getRecommendedVideos({ 
+          videoId: data.item._id, 
+          category: data.item.category, 
+          title: data.item.title 
+        }));
       }
     }
-    fetchLikes()
+  }, [location.state, dispatch])
 
-    console.log(location.state)
-    SetData(location.state)
-  }, [])
+  if (!videoData) {
+    return <div className="loading">No video data found.</div>
+  }
+
   return (
     <div className='videoPlayer'>
       <div className='Screen'>
-
-        <Screen Status={Seton} On={On} Data={ScreenData ? ScreenData : null} likes={totalLikes} add={AddLike} />
-
+        <Screen 
+          Status={setShowComments} 
+          On={showComments} 
+          Data={videoData}   
+        />
       </div>
       <div className='Label'>
-
         <Label />
-
       </div>
       <div className='VideoContainer'>
-        {On && <Comments />}
-
-        <VideoContainer Data={Data} />
+        {showComments && <Comments videoId={videoData.item._id} />}
+        <h3 className="section-title">Recommended Videos</h3>
+        <VideoContainer Data={recommendedVideos} />
       </div>
-
-
     </div>
   )
 }

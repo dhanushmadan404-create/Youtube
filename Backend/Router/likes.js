@@ -11,7 +11,7 @@ import {
 const likesRouter = Router();
 
 likesRouter.post("/", ValidateLikes(LikesSchemas), postLikes);
-likesRouter.get("/like/:videoid", getLikes);
+likesRouter.get("/like/:videoId", getLikes);
 likesRouter.get("/user/like/:userid", getByLike);
 likesRouter.delete("/remove/:videoid/like/:userid", removeLike);
 

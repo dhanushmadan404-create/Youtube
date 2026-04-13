@@ -1,9 +1,15 @@
-.Container{
-display: flex;
-flex-wrap: wrap;
+.Container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px 24px;
+  padding: 20px 0;
+  width: 100%;
+}
 
-gap: 50px;
-margin: 10px;
-width: 100dvw;
-
+@media (max-width: 768px) {
+  .Container {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    gap: 20px;
+    padding: 10px 0;
+  }
 }
