@@ -91,7 +91,7 @@ function UpdateVideo() {
 
                 <form className="UploadForm" onSubmit={UploadForm.handleSubmit}>
                     <div className="input-group">
-                        <label className="typography-body1">Title</label>
+                        <label className="typography-body1">Title</label><br/>
                         <input
                             type="text"
                             name="Title"
@@ -101,12 +101,12 @@ function UpdateVideo() {
                             onBlur={UploadForm.handleBlur}
                         />
                         {UploadForm.touched.Title && UploadForm.errors.Title && (
-                            <span className="error-text">{UploadForm.errors.Title}</span>
+                            <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Title}</span>
                         )}
                     </div>
 
                     <div className="input-group">
-                        <label className="typography-body1">Description</label>
+                        <label className="typography-body1">Description</label><br/>
                         <textarea
                             name="Description"
                             rows={4}
@@ -117,12 +117,12 @@ function UpdateVideo() {
                             style={{ resize: 'vertical' }}
                         />
                         {UploadForm.touched.Description && UploadForm.errors.Description && (
-                            <span className="error-text">{UploadForm.errors.Description}</span>
+                            <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Description}</span>
                         )}
                     </div>
 
                     <div className="input-group">
-                        <label className="typography-body1">New Thumbnail</label>
+                        <label className="typography-body1">New Thumbnail</label><br/>
                         <input
                             type="file"
                             name="Thumbnail"
@@ -131,12 +131,12 @@ function UpdateVideo() {
                             className={`custom-input ${UploadForm.touched.Thumbnail && UploadForm.errors.Thumbnail ? 'error' : ''}`}
                         />
                         {UploadForm.touched.Thumbnail && UploadForm.errors.Thumbnail && (
-                            <span className="error-text">{UploadForm.errors.Thumbnail}</span>
+                            <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Thumbnail}</span>
                         )}
                     </div>
 
                     <div className="input-group">
-                        <label className="typography-body1">Category</label>
+                        <label className="typography-body1">Category</label><br/>
                         <select
                             name="Category"
                             className={`custom-input ${UploadForm.touched.Category && UploadForm.errors.Category ? 'error' : ''}`}
@@ -150,10 +150,13 @@ function UpdateVideo() {
                             <option value="Technology">Technology</option>
                             <option value="Gaming">Gaming</option>
                         </select>
+                        {UploadForm.touched.Category && UploadForm.errors.Category && (
+                            <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Category}</span>
+                        )}
                     </div>
 
                     <div className="input-group">
-                        <label className="typography-body1">Age Restriction</label>
+                        <label className="typography-body1">Age Restriction</label><br/>
                         <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
                             <label style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                                 <input
@@ -174,8 +177,11 @@ function UpdateVideo() {
                                 /> 18+ Only
                             </label>
                         </div>
+                        {UploadForm.touched.Restriction && UploadForm.errors.Restriction && (
+                            <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Restriction}</span>
+                        )}
                     </div>
-
+                        
                     <button 
                         type="submit" 
                         className="custom-btn LaunchBtn" 
@@ -201,4 +207,4 @@ function UpdateVideo() {
     );
 }
 
-export default UpdateVideo;
+export default UpdateVideo;

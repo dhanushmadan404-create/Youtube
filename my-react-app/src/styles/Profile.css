@@ -45,6 +45,43 @@
   color: var(--text-secondary);
   font-size: 14px;
 }
+.channel-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+  flex-wrap: wrap; /* Allows wrapping on mobile */
+}
+
+.subscriber-count {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 4px 0 8px 0;
+  font-weight: 500;
+}
+
+.customize-btn {
+  padding: 10px 24px;
+  background: transparent;
+  color: white;
+  border: 2px solid var(--purple-accent);
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.customize-btn:hover {
+  background: var(--purple-accent);
+  color: black;
+}
+
+/* Disabled state for "My Channel" */
+.subscribe-btn.disabled {
+  background: #444;
+  cursor: default;
+  opacity: 0.7;
+}
 
 .subscribe-label {
   color: var(--purple-accent);

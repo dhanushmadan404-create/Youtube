@@ -6,9 +6,10 @@ import {
   removeVideo, 
   updateVideo,
   Search,
-  GetFollowing,
   GetRecommendedVideos,
-  IncrementViews
+  IncrementViews,
+  getTopFive,
+  GetFollowingFeed
 } from "../controller/video.js";
 import { Router } from "express";
 import { videoPost, updateVideoSchemas } from "../Schemas/videoPost.schemas.js";
@@ -20,11 +21,12 @@ import {
 const videoRouter = Router();
 
 videoRouter.post("/", videoPostValidation(videoPost), videoCreate);
-videoRouter.get("/", GetAll);
+videoRouter.get("/all", GetAll);
 videoRouter.get("/search", Search); // Search endpoint
-videoRouter.get("/following/:follower_id", GetFollowing); // Following feed
+videoRouter.get("/five", getTopFive); // Following feed
 videoRouter.get("/recommended/:video_id", GetRecommendedVideos); // Recommended videos
 videoRouter.patch("/view/:video_id", IncrementViews); // Increment views
+videoRouter.get("/following/:user_id", GetFollowingFeed); // Following feed videos
 
 videoRouter.get("/user/:user_id", getByUser);
 videoRouter.get("/cat/:category", CategoryGet); // Changed slightly to avoid conflict with /:video_id if needed, but let's keep it consistent

@@ -11,12 +11,13 @@ const Content = React.memo(({ item }) => {
     navigate("/vdoplayer", {
       state: {
         item: item,
-        personal: { name: item.userInfo.name, user_id: item.userInfo._id, profile: item.userInfo.profile_img }
+        personal: { name: item.userInfo?.name, user_id: item.userInfo?._id, profile: item.userInfo?.profile_img }
       }
     });
   };
 
   const handleProfileClick = () => {
+    if (!item.userInfo?._id) return;
     navigate("/profile", {
       state: {
         User_id: item.userInfo._id,
@@ -34,8 +35,8 @@ const Content = React.memo(({ item }) => {
       <div className="card-info">
         <img 
           className="channel-avatar" 
-          src={item.userInfo.profileImage || Pro} 
-          alt={item.userInfo.name} 
+          src={item.userInfo?.profileImage || Pro} 
+          alt={item.userInfo?.name || "Channel"} 
           onClick={handleProfileClick}
           style={{ cursor: 'pointer' }}
         />
@@ -51,17 +52,12 @@ const Content = React.memo(({ item }) => {
               onClick={handleProfileClick}
               style={{ cursor: 'pointer', fontWeight: '500' }}
             >
-              {item.userInfo.name}
+              {item.userInfo?.name || "Unknown Channel"}
             </span>
             <span>{item.views || 0} views • {item.category}</span>
           </div>
         </div>
 
-        <button className="menuButton">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-          </svg>
-        </button>
       </div>
     </div>
   );

@@ -20,6 +20,13 @@
   align-items: center;
   gap: 16px;
 }
+.Start img{
+  height: 32px;
+  width: 32px;
+  filter: drop-shadow(0 0 8px var(--purple-accent));
+  border-radius: 70%;
+  clip-path: circle(50% at 50% 50%);
+}
 .SearchHeader>form{
 display: flex;
 }

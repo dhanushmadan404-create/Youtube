@@ -1,77 +1,81 @@
-import React, { useState, useEffect } from 'react'
-import '../styles/Home.css'
-// components
-import Scrolling from '../Components/Scrolling'
-import VideoContainer from '../Components/VideoContainer'
-import CategoryBlock from '../Components/CategoryBlock'
-import ChannelContainer from '../Components/ChannelContainer'
-import { getTopChannelsThunk } from '../Redux/Slice/FollowerSlice'
-// Data
-import { useSelector, useDispatch } from 'react-redux'
-import { getPaginatedVideos } from '../Redux/Slice/VIdeoSlice'
+import React, { useState, useEffect } from 'react';
+import '../styles/Home.css';
+import Scrolling from '../Components/Scrolling';
+import VideoContainer from '../Components/VideoContainer';
+import CategoryBlock from '../Components/CategoryBlock';
+import Channel from '../Components/Channel'; // IMPORT CHANNEL DIRECTLY
+import { useSelector, useDispatch } from 'react-redux';
+import { getPaginatedVideos,getTopFive } from '../Redux/Slice/VIdeoSlice';
+import { getTopChannelsThunk } from '../Redux/Slice/FollowerSlice';
 
 function Home() {
-    const dispatch = useDispatch()
-    const RaVideo = useSelector((state) => state.video.raVideo)
-    const isLoading = useSelector((state) => state.video.isLoading)
-    const [skip, setSkip] = useState(0)
-    const limit = 10;
+  const dispatch = useDispatch();
+  const RaVideo = useSelector((state) => state.video.raVideo);
+  const isLoading = useSelector((state) => state.video.isLoading);
+  const topChannels = useSelector((state) => state.followers?.topChannels) || []; // GET TOP CHANNELS
+  const topFive=useSelector((state)=>state.video.TopFive)
+  
+  
 
-    // Get user age for restriction (optional, defaults to null)
-    const userAge = localStorage.getItem("userAge") || 20; 
-    const getTopFive=()=>{
-       const temp= dispatch(getTopChannelsThunk())
-       console.log(temp)
-    }
-    useEffect(() => {
+  useEffect(() => {
+    dispatch(getTopFive())
+    dispatch(getPaginatedVideos());
+    dispatch(getTopChannelsThunk()); // FETCH TOP CHANNELS
+  
+  }, [dispatch]);
 
-        // Initial fetch
-        dispatch(getPaginatedVideos({ skip: 0, limit, age: userAge }))
-        getTopFive()
-    }, [dispatch, userAge])
+  const handleSeeMore = () => {
+    dispatch(getPaginatedVideos());
+  };
+      console.log(topFive)
 
-    const handleSeeMore = () => {
-        const nextSkip = skip + limit;
-        setSkip(nextSkip);
-        dispatch(getPaginatedVideos({ skip: nextSkip, limit, age: userAge }))
-    }
-
-    return (
-        <div className='Home'>
-            <div className='Scrolling'>
-                <Scrolling />
-            </div>
+  return (
+    <div className='Home'>
+      <div className='Scrolling'>
+        {topFive.length > 0 && (
+          <div style={{ padding: '10px' }}>
+            <h1 className="typography-h4" style={{ color: 'white', marginBottom: '15px' }}>
+              Trending Videos
+            </h1>
+            <Scrolling videos={topFive} />
+          </div>
+        )}
+      </div>
             
-            <div className='VideoContainer'>
-                <CategoryBlock />
-                <ChannelContainer />
-                
-                {RaVideo.length === 0 && !isLoading ? (
-                    <div className="no-videos">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.3, marginBottom: '16px' }}>
-                            <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM8 15c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2H8z"/>
-                        </svg>
-                        <p>No videos found. Check back later!</p>
-                    </div>
-                ) : (
-                    <>
-                        <VideoContainer Data={RaVideo} />
-                        
-                        <div className="see-more-container" style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
-                            <button 
-                                className="custom-btn" 
-                                onClick={handleSeeMore}
-                                disabled={isLoading}
-                                style={{ minWidth: '160px' }}
-                            >
-                                {isLoading ? "Searching..." : "See More"}
-                            </button>
-                        </div>
-                    </>
-                )}
+      <div className='VideoContainer'>
+        <CategoryBlock />
+        
+        {/* TOP CHANNELS SECTION */}
+        {topChannels.length > 0 && (
+          <div style={{ margin: '20px 0' }}>
+            <h3 className="typography-h5" style={{ color: 'white', marginBottom: '15px' }}>
+              Top Channels
+            </h3>
+            <div className='CategoryBlock'>
+              {topChannels.map((channel, index) => (
+                <Channel key={channel._id || index} channel={channel} />
+              ))}
             </div>
-        </div>
-    )
+          </div>
+        )}
+        
+        <h3 className="typography-h5" style={{ color: 'white', margin: '20px 0' }}>
+          Recommended Videos
+        </h3>
+                
+        {RaVideo.length === 0 && !isLoading ? (
+          <div className="no-videos">
+            <p>No videos found. Check back later!</p>
+          </div>
+        ) : (
+          <>
+            <VideoContainer Data={RaVideo} />
+         
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default Home
+export default Home;

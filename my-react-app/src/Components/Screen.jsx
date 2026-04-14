@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import "../styles/Screen.css";
 import profileIcon from '../assets/react.svg';
 import { useDispatch } from 'react-redux';
 import { getVideoLikes, createLikes } from '../Redux/Slice/LikesSlice';
-import { createFollowers } from '../Redux/Slice/FollowerSlice';
+import { createFollowers, getFollowing } from '../Redux/Slice/FollowerSlice'; // Fixed import
 import Btn from './Btn';
 
 function Screen({ Status, On, Data }) {
@@ -13,8 +13,28 @@ function Screen({ Status, On, Data }) {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
 
-  const fetchLikes = async () => {
+  // FIXED: Check if user is subscribed using existing thunk
+  const checkSubscriptionStatus = useCallback(async () => {
+    if (!userId || !Data?.item?.user_id) return;
+    
+    try {
+      // Get list of users that current user is following
+      const followingList = await dispatch(getFollowing(userId)).unwrap();
+      
+      // Check if video owner is in the following list
+      const isFollowing = followingList.some(
+        (follow) => follow.user_id === Data.item.user_id
+      );
+      
+      setIsSubscribed(isFollowing);
+    } catch (err) {
+      console.error("Check subscription error:", err);
+    }
+  }, [dispatch, userId, Data?.item?.user_id]);
+
+  const fetchLikes = useCallback(async () => {
     if (Data?.item?._id) {
       try {
         const total = await dispatch(getVideoLikes({ videoId: Data.item._id })).unwrap();
@@ -23,7 +43,7 @@ function Screen({ Status, On, Data }) {
         console.error("fetchLikes error:", err);
       }
     }
-  };
+  }, [dispatch, Data?.item?._id]);
 
   const handleLike = async () => {
     if (!userId) {
@@ -35,6 +55,7 @@ function Screen({ Status, On, Data }) {
       await fetchLikes();
     } catch (err) {
       console.error("Like error:", err);
+      showStatus("Failed to like video");
     }
   };
 
@@ -43,21 +64,42 @@ function Screen({ Status, On, Data }) {
       showStatus("Please login to subscribe");
       return;
     }
+    
+    setIsLoading(true);
     try {
-      const action = await dispatch(createFollowers({ user_id: userId, fan_id: Data.item.user_id }));
-      if (createFollowers.fulfilled.match(action)) {
-        setIsSubscribed(action.payload.status === "followed");
-        showStatus(action.payload.status === "followed" ? "Subscribed!" : "Unsubscribed");
+      const action = await dispatch(createFollowers({ 
+        body: {
+          user_id: Data.item.user_id,  // Channel being viewed (owner)
+          fan_id: userId                // Current user (subscriber)
+        }
+      })).unwrap();
+      
+      // FIXED: Properly handle toggle response
+      if (action.status === "followed") {
+        setIsSubscribed(true);
+        showStatus("Subscribed successfully!");
+      } else if (action.status === "unfollowed") {
+        setIsSubscribed(false);
+        showStatus("Unsubscribed successfully!");
+      } else {
+        // Fallback: toggle current state if status is unclear
+        setIsSubscribed(!isSubscribed);
       }
     } catch (err) {
       console.error("Subscribe error:", err);
+      showStatus(err.message || "Failed to subscribe");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleShare = () => {
     const videoUrl = window.location.href; 
-    navigator.clipboard.writeText(videoUrl);
-    showStatus("Link copied to clipboard!");
+    navigator.clipboard.writeText(videoUrl).then(() => {
+      showStatus("Link copied to clipboard!");
+    }).catch(() => {
+      showStatus("Failed to copy link");
+    });
   };
 
   const showStatus = (msg) => {
@@ -65,11 +107,15 @@ function Screen({ Status, On, Data }) {
     setTimeout(() => setStatusMessage(""), 3000);
   };
 
+  // FIXED: Proper dependency array and null checks
   useEffect(() => {
-    fetchLikes();
-    // In a real app, you'd check if the user is already subscribed to this channel
-  }, [Data, dispatch]);
+    if (Data?.item?._id) {
+      fetchLikes();
+      checkSubscriptionStatus();
+    }
+  }, [fetchLikes, checkSubscriptionStatus, Data?.item?._id]);
 
+  // Early return if data is missing
   if (!Data || !Data.item || !Data.personal) {
     return <div className="loading-text">Loading video...</div>;
   }
@@ -90,7 +136,13 @@ function Screen({ Status, On, Data }) {
       )}
 
       <div className='video-wrapper'>
-        <video src={Data.item.video_url} controls autoPlay className="custom-vdo-player"></video>
+        <video 
+          src={Data.item.video_url} 
+          controls 
+          autoPlay 
+          className="custom-vdo-player"
+          onError={(e) => console.error("Video load error:", e)}
+        />
       </div>
 
       <div className='video-details'>
@@ -99,7 +151,7 @@ function Screen({ Status, On, Data }) {
         <div className='channel-row'>
           <div className='channel-info'>
             <img 
-              src={Data.item.thumbnail || profileIcon} 
+              src={Data.personal.profile || profileIcon} 
               alt="channel logo" 
               className='channel-logo' 
             />
@@ -110,8 +162,10 @@ function Screen({ Status, On, Data }) {
             <button 
               className={`subscribe-btn ${isSubscribed ? 'subscribed' : ''}`} 
               onClick={handleSubscribe}
+              disabled={isLoading}
+              style={{ opacity: isLoading ? 0.7 : 1 }}
             >
-              {isSubscribed ? "Subscribed" : "Subscribe"}
+              {isLoading ? "Loading..." : (isSubscribed ? "Subscribed" : "Subscribe")}
             </button>
           </div>
 
@@ -128,12 +182,12 @@ function Screen({ Status, On, Data }) {
               </svg>
               Share
             </button>
-            <button className="action-btn" onClick={() => Status(!On)}>
+            {/* <button className="action-btn" onClick={() => Status(!On)}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
               </svg>
               Comments
-            </button>
+            </button> =>under development*/}
           </div>
         </div>
 

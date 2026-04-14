@@ -18,65 +18,119 @@ export const CreateVideo = async (Body) => {
   }
 };
 // ? get all video (with pagination and age restriction)
-export const GetAllVideo = async (skip = 0, limit = 10, userAge = null) => {
+export const GetAllVideo = async () => {
   try {
     const DB = await getDb();
-    
-    // Base match for age restriction: if restriction is "18+" and userAge < 18, filter out.
-    // Assuming restriction field contains values like "All", "18+", etc.
-    let matchStage = {};
-    if (userAge !== null && userAge < 18) {
-      matchStage = { restriction: { $ne: "18+" } };
-    }
 
-    const Result = await DB.collection("Video").aggregate([
-      { $match: matchStage },
+    const result = await DB.collection("Video").aggregate([
       {
-        $lookup:{
-          from:"User",
-          localField:"user_id",
-          foreignField:"_id",
-          as:"userInfo"
+        $lookup: {
+          from: "User",
+          localField: "user_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      {
+        $unwind: {
+          path: "$userInfo",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      // 🔥 CLEAN RESPONSE
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          description: 1,
+          video_url: 1,
+          thumbnail: 1,
+          category: 1,
+          restriction: 1,
+          createdAt: 1,
+
+          // user fields (flatten)
+          user: {
+            _id: "$userInfo._id",
+            name: "$userInfo.name",
+            email: "$userInfo.email",
+            profileImage: "$userInfo.profileImage",
+          },
+        },
+      },
+
+   
+    ]).toArray();
+
+    return result;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+// ? get top 5 videos based on views (reads views field from Video collection)
+export const getFive = async () => {
+  try {
+    const DB = await getDb();
+    const result = await DB.collection("Video").aggregate([
+      // Add a computed field so videos without a 'views' field are treated as 0
+      {
+        $addFields: {
+          views: { $ifNull: ["$views", 0] }
         }
       },
-      { $unwind:"$userInfo" },
-      { $skip: parseInt(skip) },
-      { $limit: parseInt(limit) }
+      // Only include videos that have at least 1 view
+      { $match: { views: { $gt: 0 } } },
+      // Sort by most views first
+      { $sort: { views: -1 } },
+      // Take top 5
+      { $limit: 5 },
+      // Join with User collection to get channel info
+      {
+        $lookup: {
+          from: "User",
+          localField: "user_id",
+          foreignField: "_id",
+          as: "userInfo"
+        }
+      },
+      { $unwind: "$userInfo" }
     ]).toArray();
-    
-    return Result;
+
+    return result;
   } catch (err) {
     console.log(err);
     return err;
   }
 };
 
-// ? get videos only from users that current user follows
-export const GetFollowingVideos = async (followerId) => {
+export const getFollowingFeed = async (userId) => {
   try {
     const DB = await getDb();
-    // 1. Get list of user_ids that this follower follows
-    const following = await DB.collection("followers")
-      .find({ fan_id: followerId })
+    const followRecords = await DB.collection("Followers")
+      .find({ user_id: userId })
       .toArray();
-    
-    const followedUserIds = following.map(f => new ObjectId(f.user_id));
 
-    // 2. Get videos from those users
-    const Result = await DB.collection("Video").aggregate([
+    if (followRecords.length === 0) return [];
+
+    const followedUserIds = followRecords.map((r) => r.fan_id);
+
+    const result = await DB.collection("Video").aggregate([
       { $match: { user_id: { $in: followedUserIds } } },
+      { $sort: { _id: -1 } }, 
       {
-        $lookup:{
-          from:"User",
-          localField:"user_id",
-          foreignField:"_id",
-          as:"userInfo"
+        $lookup: {
+          from: "User",
+          localField: "user_id",
+          foreignField: "_id",
+          as: "userInfo"
         }
       },
-      { $unwind:"$userInfo" }
+      { $unwind: "$userInfo" }
     ]).toArray();
 
-    return Result;
+    return result;
   } catch (err) {
     console.log(err);
     return err;

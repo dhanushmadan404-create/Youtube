@@ -111,6 +111,12 @@ function Login() {
             <span 
               className="link"
               onClick={() => navigate("/register")} 
+               style={{
+                                color: "var(--purple-accent)",
+                                cursor: "pointer",
+                                marginLeft: "5px",
+                                fontWeight: "600"
+                            }}
             >
               Sign Up
             </span>

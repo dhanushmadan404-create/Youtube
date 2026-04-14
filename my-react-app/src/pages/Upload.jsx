@@ -108,7 +108,7 @@ function Upload() {
 
         <form className="UploadForm" onSubmit={UploadForm.handleSubmit}>
           <div className="input-group">
-            <label className="typography-body1">Select Video</label>
+            <label className="typography-body1">Select Video</label><br/>
             <input
               type="file"
               name="videoFile"
@@ -117,12 +117,12 @@ function Upload() {
               className={`custom-input ${UploadForm.touched.videoFile && UploadForm.errors.videoFile ? 'error' : ''}`}
             />
             {UploadForm.touched.videoFile && UploadForm.errors.videoFile && (
-              <span className="error-text">{UploadForm.errors.videoFile}</span>
+              <span className="error-text" style={{color:"red"}}>{UploadForm.errors.videoFile}</span>
             )}
           </div>
 
           <div className="input-group">
-            <label className="typography-body1">Title</label>
+            <label className="typography-body1">Title</label><br/>
             <input
               type="text"
               name="Title"
@@ -133,12 +133,12 @@ function Upload() {
               onBlur={UploadForm.handleBlur}
             />
             {UploadForm.touched.Title && UploadForm.errors.Title && (
-              <span className="error-text">{UploadForm.errors.Title}</span>
+              <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Title}</span>
             )}
           </div>
 
           <div className="input-group">
-            <label className="typography-body1">Description</label>
+            <label className="typography-body1">Description</label><br/>
             <textarea
               name="Description"
               placeholder="Tell viewers about your video"
@@ -150,12 +150,12 @@ function Upload() {
               style={{ resize: 'vertical' }}
             />
             {UploadForm.touched.Description && UploadForm.errors.Description && (
-              <span className="error-text">{UploadForm.errors.Description}</span>
+              <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Description}</span>
             )}
           </div>
 
           <div className="input-group">
-            <label className="typography-body1">Thumbnail</label>
+            <label className="typography-body1">Thumbnail</label><br/>
             <input
               type="file"
               name="Thumbnail"
@@ -164,18 +164,19 @@ function Upload() {
               className={`custom-input ${UploadForm.touched.Thumbnail && UploadForm.errors.Thumbnail ? 'error' : ''}`}
             />
             {UploadForm.touched.Thumbnail && UploadForm.errors.Thumbnail && (
-              <span className="error-text">{UploadForm.errors.Thumbnail}</span>
+              <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Thumbnail}</span>
             )}
           </div>
 
           <div className="input-group">
-            <label className="typography-body1">Category</label>
+            <label className="typography-body1">Category</label><br/>
             <select
               name="Category"
               className={`custom-input ${UploadForm.touched.Category && UploadForm.errors.Category ? 'error' : ''}`}
               value={UploadForm.values.Category}
               onChange={UploadForm.handleChange}
               onBlur={UploadForm.handleBlur}
+              style={{color:"black"}}
             >
               <option value="">Select a category</option>
               <option value="Education">Education</option>
@@ -184,12 +185,12 @@ function Upload() {
               <option value="Gaming">Gaming</option>
             </select>
             {UploadForm.touched.Category && UploadForm.errors.Category && (
-              <span className="error-text">{UploadForm.errors.Category}</span>
+              <span className="error-text" style={{color:"red"}}>{UploadForm.errors.Category}</span>
             )}
           </div>
 
           <div className="input-group">
-            <label className="typography-body1">Age Restriction</label>
+            <label className="typography-body1">Age Restriction</label><br/>
             <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
               <label style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <input
@@ -246,4 +247,4 @@ function Upload() {
   );
 }
 
-export default Upload;
+export default Upload;

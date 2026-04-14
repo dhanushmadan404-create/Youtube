@@ -61,38 +61,7 @@ function SideBar({ isActive }) {
         ))}
       </div>
 
-      {/* Subscribed header */}
-      <div
-        className="HeadAlign"
-      >
-        <div>
 
-      <FontAwesomeIcon icon={faRss} size="2x" />
-        </div>
-        <span className="typography-body1">Channel</span>
-      </div>
-
-      {/* Channels */}
-      <div className="Category">
-        {topChannels.map((channel, index) => (
-          <div
-            key={index}
-            className="Align"
-            onClick={() =>
-              navigate("/profile", {
-                state: { User_id: channel.user_id },
-              })
-            }
-          >
-            <img
-              src={channel.profileImage || reactLogo}
-              alt={channel.name}
-              className="profileImg"
-            />
-            <span className="typography-body1">{channel.name}</span>
-          </div>
-        ))}
-      </div>
     </aside>
   );
 }

@@ -5,7 +5,7 @@ const initialState = {
   raVideo: [],
   cateVideo: [],
   userVideo: [],
-  followingVideos: [],
+  TopFive: [],
   searchResult: [],
   recommendedVideos: [],
   removeVideo: null,
@@ -17,9 +17,9 @@ const initialState = {
 // get paginated videos
 export const getPaginatedVideos = createAsyncThunk(
   "video/getPaginated",
-  async ({ skip, limit, age }, thunkApi) => {
+  async (_, thunkApi) => {
     try {
-      const response = await videoApi.videoPaginated(skip, limit, age);
+      const response = await videoApi.videoPaginated();
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response?.data || error.message);
@@ -41,11 +41,11 @@ export const searchVideos = createAsyncThunk(
 );
 
 // get following feed
-export const getFollowingFeed = createAsyncThunk(
-  "video/followingFeed",
-  async (followerId, thunkApi) => {
+export const getTopFive = createAsyncThunk(
+  "video/getFive",
+  async (_, thunkApi) => {
     try {
-      const response = await videoApi.followingFeed(followerId);
+      const response = await videoApi.getFive();
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response?.data || error.message);
@@ -192,9 +192,9 @@ const videoSlice = createSlice({
       })
 
       // following feed
-      .addCase(getFollowingFeed.fulfilled, (state, action) => {
+      .addCase(getTopFive.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.followingVideos = action.payload;
+        state.TopFive = action.payload;
       })
 
       // recommended videos

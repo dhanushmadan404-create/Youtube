@@ -11,30 +11,40 @@ import { incrementViewCountThunk, getRecommendedVideos } from '../Redux/Slice/VI
 function VdoPlayer() {
   const location = useLocation()
   const dispatch = useDispatch()
+    const RaVideo = useSelector((state) => state.video.raVideo);
+  
   const recommendedVideos = useSelector((state) => state.video.recommendedVideos)
   const [showComments, setShowComments] = useState(false)
   const [videoData, setVideoData] = useState(location.state || null)
 
-  useEffect(() => {
-    if (location.state) {
-      const data = location.state;
-      setVideoData(data);
+ useEffect(() => {
+  if (location.state) {
+    const data = location.state;
+    setVideoData(data);
+
+    if (data.item?._id) {
+      // ONE USER = ONE VIEW LOGIC
+      const viewedVideos = JSON.parse(sessionStorage.getItem('viewedVideos') || '[]');
+      const hasViewed = viewedVideos.includes(data.item._id);
       
-      // 1. Increment view count
-      if (data.item?._id) {
+      if (!hasViewed) {
         dispatch(incrementViewCountThunk(data.item._id));
+        viewedVideos.push(data.item._id);
+        sessionStorage.setItem('viewedVideos', JSON.stringify(viewedVideos));
       }
 
-      // 2. Fetch recommended videos
-      if (data.item?._id && data.item?.category) {
-        dispatch(getRecommendedVideos({ 
-          videoId: data.item._id, 
-          category: data.item.category, 
-          title: data.item.title 
+      // Fetch recommended videos
+      if (data.item?.category) {
+        dispatch(getRecommendedVideos({
+          videoId: data.item._id,
+          category: data.item.category,
+          title: data.item.title
         }));
       }
     }
-  }, [location.state, dispatch])
+  }
+}, [location.state, dispatch]);
+
 
   if (!videoData) {
     return <div className="loading">No video data found.</div>
@@ -49,13 +59,11 @@ function VdoPlayer() {
           Data={videoData}   
         />
       </div>
-      <div className='Label'>
-        <Label />
-      </div>
+     
       <div className='VideoContainer'>
         {showComments && <Comments videoId={videoData.item._id} />}
         <h3 className="section-title">Recommended Videos</h3>
-        <VideoContainer Data={recommendedVideos} />
+        <VideoContainer Data={RaVideo} />
       </div>
     </div>
   )

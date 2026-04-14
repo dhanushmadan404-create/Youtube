@@ -1,16 +1,13 @@
 import { getDb } from "../config/db_connect.js";
 
-
 export const postFollowers = async (user_id, fan_id) => {
   const Db = await getDb();
-
 
   const check = await Db.collection("Followers").findOne({
     user_id: user_id,
     fan_id: fan_id,
   });
 
-  
   if (check) {
     await Db.collection("Followers").deleteOne({
       user_id: user_id,
@@ -20,7 +17,6 @@ export const postFollowers = async (user_id, fan_id) => {
     return { status: "unfollowed" };
   }
 
-
   await Db.collection("Followers").insertOne({
     user_id: user_id,
     fan_id: fan_id,
@@ -28,27 +24,20 @@ export const postFollowers = async (user_id, fan_id) => {
 
   return { status: "followed" };
 };
-
-export const getFollowers = async (user_id) => {
+export const check = async (user_id,fan_id) => {
   const Db = await getDb();
-  const result = await Db.collection("Followers")
-    .aggregate([
-      {
-        $match: { fan_id: user_id },
-      },
-      {
-        $group: {
-          _id: "$user_id",
-          total_count: { $sum: 1 },
-        },
-      },
-    ])
-    .toArray();
+  const check = await Db.collection("Followers").findOne({
+    user_id: user_id,
+    fan_id: fan_id,
+  });
+  if (check) {
+  
 
-  return result;
+    return { status: "followed" };
+  }
+  
 };
-
-export const getFollowing = async (user_id) => {
+export const getFollowers = async (user_id) => {
   const Db = await getDb();
   const result = await Db.collection("Followers")
     .find(
@@ -56,14 +45,47 @@ export const getFollowing = async (user_id) => {
         user_id: user_id,
       },
       {
-        $project: {
+        projection: {
           fan_id: 1,
         },
       },
     )
     .toArray();
+
   return result;
 };
+
+export const getFollowing = async (user_id) => {
+  const Db = await getDb();
+  
+  const result = await Db.collection("Followers")
+    .aggregate([
+      { $match: { user_id: user_id } },
+      {
+        $lookup: {
+          from: "User",
+          localField: "fan_id",
+          foreignField: "_id",
+          as: "userInfo"
+        }
+      },
+      { $unwind: "$userInfo" },
+      {
+        $project: {
+          _id: 0,
+          user_id: "$userInfo._id",
+          name: "$userInfo.name",
+          profileImage: "$userInfo.profileImage",
+          profile_img: "$userInfo.profile_img",
+        }
+      }
+    ])
+    .toArray();
+
+  return result;
+};
+
+
 
 export const removeFollowing = async (user_id, fan_id) => {
   const Db = await getDb();

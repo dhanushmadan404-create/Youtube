@@ -1,39 +1,43 @@
-import React, { useRef } from 'react';
-import "../styles/Profile.css";
-import profile from "../assets/react.svg";
-import Banner from "../assets/profile.png";
-import { createFollowers } from '../Redux/Slice/FollowerSlice';
-import Btn from './Btn';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React from 'react'
+import "../styles/Profile.css"
+import profile from "../assets/layoutpro.jpg"
+import Banner from "../assets/layoutbanner.jpg"
+import { createFollowers } from '../Redux/Slice/FollowerSlice'
+import Btn from './Btn'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-function Profile({ data, fuc }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const searchRef = useRef();
+function Profile({ data, fuc, isSubscribed, setIsSubscribed ,subscriberCount}) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   async function addSub() {
     try {
-      const action = await dispatch(createFollowers({ user_id: localStorage.getItem("userid"), fan_id: data._id }));
-      if (createFollowers.fulfilled.match(action)) {
-        console.log(action.payload);
+      const action = await dispatch(createFollowers({
+        body: {
+          user_id: data._id,
+          fan_id: localStorage.getItem("userid")
+        }
+      })).unwrap()
+
+      if (action.status === "followed") {
+        setIsSubscribed(true)
       } else {
-        console.log('error', action.error);
+        setIsSubscribed(false)
       }
+
     } catch (error) {
-      console.log('error', error);
+      console.log(error)
     }
   }
 
   if (!data) {
-    return <h1 className="loading-text">Loading...</h1>;
+    return <h1>Loading...</h1>
   }
 
   return (
     <div className="profile">
-      {/* Top Section */}
       <div className="profile-header">
-        {/* Left Side - Channel Info */}
         <div className="channel-info-container">
           <div className="channel-info">
             <div className="avatar">
@@ -43,15 +47,15 @@ function Profile({ data, fuc }) {
             <div className="channel-details">
               <h1>{data.name}</h1>
               <p className="email-text">{data.email}</p>
-              
+              <p className="subscriber-count">{subscriberCount || 0} subscribers</p> {/* ADD THIS */}
+
               <div className="channel-actions">
-                {fuc ? (
-                  <button className="subscribe-btn disabled">Subscriber Count</button>
-                ) : (
-                  <button className="subscribe-btn" onClick={() => addSub()}>
-                    Subscribe
+                {!fuc && (
+                  <button className="subscribe-btn" onClick={addSub}>
+                    {isSubscribed ? "Subscribed" : "Subscribe"}
                   </button>
                 )}
+
                 {fuc && (
                   <button
                     className="customize-btn"
@@ -63,41 +67,15 @@ function Profile({ data, fuc }) {
               </div>
             </div>
           </div>
-          <div className="description-container">
-            <p className="channel-description">
-              {data.description || "Welcome to my channel! Subscribe for more content."}
-            </p>
-          </div>
+          {/* ... rest of code ... */}
         </div>
-
-        {/* Right Side - Banner */}
-        <div className="banner">
+         <div className="banner">
           <img src={data.bannerImage ? data.bannerImage : Banner} alt="banner" />
         </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="profile-actions">
-        <Btn Content={"Videos"} />
-
-        <div className="search-box">
-          <div className="search-wrapper">
-            <input
-              ref={searchRef}
-              type="text"
-              placeholder="Search channel"
-              className="custom-input"
-            />
-            <span className="search-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-              </svg>
-            </span>
-          </div>
-        </div>
+        {/* ... banner ... */}
       </div>
     </div>
   );
 }
-
-export default Profile;
+export default Profile
+       

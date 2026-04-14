@@ -14,7 +14,7 @@ const initialState = {
 // create follower
 export const createFollowers = createAsyncThunk(
   "followers/create",
-  async (body, thunkApi) => {
+  async ({body}, thunkApi) => {
     try {
       const response = await followersApi.createFollower(body);
       return response.data;
@@ -23,11 +23,22 @@ export const createFollowers = createAsyncThunk(
     }
   }
 );
-
+//check
+export const checkFollowers = createAsyncThunk(
+  "followers/getFollowers",
+  async ({body}, thunkApi) => {
+    try {
+      const response = await followersApi.checkFollower(body);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 // get followers
 export const getFollowers = createAsyncThunk(
   "followers/getFollowers",
-  async (userId, thunkApi) => {
+  async ({userId}, thunkApi) => {
     try {
       const response = await followersApi.getByFollowers(userId);
       return response.data;
@@ -40,7 +51,7 @@ export const getFollowers = createAsyncThunk(
 // get following
 export const getFollowing = createAsyncThunk(
   "followers/getFollowing",
-  async (userId, thunkApi) => {
+  async ({userId}, thunkApi) => {
     try {
       const response = await followersApi.getByFollowing(userId);
       return response.data;

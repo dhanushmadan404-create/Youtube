@@ -6,11 +6,13 @@ import {
   videoByUser, 
   videoRemove, 
   videoUpdate,
-  GetFollowingVideos,
   IncrementView,
   SearchVideos,
-  GetRecommended
+  GetRecommended,
+  getFive,
+  getFollowingFeed
 } from "../service/video.js";
+
 
 export const videoCreate = async (req, res) => {
   const {
@@ -37,8 +39,7 @@ export const videoCreate = async (req, res) => {
 };
 
 export const GetAll = async (req, res) => {
-  const { skip, limit, age } = req.query;
-  const Result = await GetAllVideo(skip, limit, age);
+  const Result = await GetAllVideo( );
   res.json(Result);
 };
 
@@ -48,9 +49,15 @@ export const Search = async (req, res) => {
   res.json(Result);
 };
 
-export const GetFollowing = async (req, res) => {
-  const { follower_id } = req.params;
-  const Result = await GetFollowingVideos(follower_id);
+export const getTopFive = async (req, res) => {
+  const Result = await getFive();
+  res.json(Result);
+};
+
+export const GetFollowingFeed = async (req, res) => {
+  const { user_id } = req.params;
+  const userId = new ObjectId(user_id);
+  const Result = await getFollowingFeed(userId);
   res.json(Result);
 };
 

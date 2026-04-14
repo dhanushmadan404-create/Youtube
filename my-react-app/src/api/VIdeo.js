@@ -19,10 +19,8 @@ class Video {
     return response;
   };
 
-  // get all videos (with pagination and age restriction)
-  videoPaginated = async (skip = 0, limit = 10, age = null) => {
-    const response = await axios.get(`${this.api}/video/`, {
-      params: { skip, limit, age },
+  videoPaginated = async () => {
+    const response = await axios.get(`${this.api}/video/all`, {
       headers: this.headers,
     });
     return response;
@@ -37,13 +35,21 @@ class Video {
     return response;
   };
 
-  // get following feed
-  followingFeed = async (followerId) => {
+  getFive = async () => {
     const response = await axios.get(
-      `${this.api}/video/following/${followerId}`,
+      `${this.api}/video/five`,
       {
         headers: this.headers,
       },
+    );
+    return response;
+  };
+
+  // get following feed videos
+  getFollowingFeed = async (userId) => {
+    const response = await axios.get(
+      `${this.api}/video/following/${userId}`,
+      { headers: this.headers }
     );
     return response;
   };

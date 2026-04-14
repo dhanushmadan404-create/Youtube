@@ -1,33 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import logo from '../assets/react.svg';
+import logo from '../assets/layoutpro.jpg';
 import "../styles/nav.css";
 import Btn from './Btn';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { searchVideos } from '../Redux/Slice/VIdeoSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+
 function Nav({ onMenuClick }) {
   const [On, Seton] = useState(false);
   const [UserId, SetUserId] = useState();
 
   const searchRef = useRef();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   function logOut() {
     localStorage.clear();
     navigate("/");
   }
 
+
   const handleSearch = (e) => {
     e.preventDefault();
     const query = searchRef.current.value;
 
     if (query.trim()) {
-      navigate(`/search?q=${query}`); // ✅ navigate instead of dispatch
+      navigate(`/search?q=${query}`); //  navigate instead of dispatch
     }
   };
 
@@ -41,7 +41,7 @@ function Nav({ onMenuClick }) {
 
         <div className='Start'>
           <button className="menu-btn" onClick={onMenuClick}>
-            ☰
+           <FontAwesomeIcon icon={faBars} size='2x' />
           </button>
 
           <Link to={"/dashboard"}>
@@ -49,7 +49,7 @@ function Nav({ onMenuClick }) {
           </Link>
 
           <Link to={"/dashboard"}><Btn Content={"HOME"} /></Link>
-          <Link to={"/following"}><Btn Content={"FOLLOWING"} /></Link>
+          {/* <Link to={"/following"}><Btn Content={"FOLLOWING"} /></Link>=> it's under development */}
         </div>
 
         <div className='SearchHeader'>
