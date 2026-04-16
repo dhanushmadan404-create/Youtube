@@ -41,7 +41,7 @@ function Nav({ onMenuClick }) {
 
         <div className='Start'>
           <button className="menu-btn" onClick={onMenuClick}>
-           <FontAwesomeIcon icon={faBars} size='2x' />
+           <FontAwesomeIcon icon={faBars} size='1x' />
           </button>
 
           <Link to={"/dashboard"}>
@@ -73,7 +73,7 @@ function Nav({ onMenuClick }) {
 
           {On && (
             <div className='SubMenu'>
-              <Btn Content={"Profile"} fuc={() => navigate("/profile", { state: { User_id: UserId } })} />
+              <Btn Content={"Profile"} fuc={() => navigate(`/profile?user_id=${UserId}`)} />
               <Btn Content={"Log Out"} fuc={logOut} />
             </div>
           )}

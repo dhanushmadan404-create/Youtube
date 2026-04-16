@@ -4,7 +4,7 @@ import {
   getFollowers,
   getFollowing,
   getTopChannels,
-  check
+  check,
 } from "../service/followers.js";
 import { ObjectId } from "mongodb";
 export const followerPost = async (req, res) => {
@@ -23,13 +23,18 @@ export const followersGet = async (req, res) => {
   const result = await getFollowers(user_id);
   res.json(result);
 };
+export const checkController = async (req, res) => {
+  const { user_id, fan_id } = req.query;
 
+  const result = await check(new ObjectId(user_id), new ObjectId(fan_id));
+  res.json(result);
+};
 export const checkFollowers = async (req, res) => {
-  const { user_id,fan_id } = req.body;
+  const { user_id, fan_id } = req.body;
   const userid = new ObjectId(user_id);
-  const fanId=new ObjectId(fan_id)
+  const fanId = new ObjectId(fan_id);
 
-  const result = await getFollowers(user_id,fan_id);
+  const result = await getFollowers(user_id, fan_id);
   res.json(result);
 };
 

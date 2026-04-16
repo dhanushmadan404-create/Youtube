@@ -21,23 +21,25 @@ export const GetByEmail = async (email) => {
 export const GetByUserId = async (user_id) => {
   const DB_name = await getDb();
 
-  const result = await DB_name.collection("User")
-    .aggregate([
-      {
-        $match: {
-          _id: user_id,
-        },
+ const result = await DB_name.collection("User")
+  .aggregate([
+    {
+      $match: {
+        _id: user_id,
       },
-      {
-        $lookup: {
-          from: "Video",
-          localField: "_id",
-          foreignField: "user_id",
-          as: "videos",
-        },
+    },
+    {
+      $lookup: {
+        from: "Video",
+        localField: "_id",
+        foreignField: "user_id",
+        as: "videos",
       },
-    ])
-    .toArray();
+    },
+
+    
+  ])
+  .toArray();
 
   return result[0];
 };

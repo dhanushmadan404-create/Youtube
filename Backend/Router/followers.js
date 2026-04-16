@@ -7,13 +7,15 @@ import {
   followingGet,
   followingRemove,
   topChannelsGet,
-  checkFollowers
+  checkFollowers,
+  checkController
 } from "../controller/followers.js";
 
 export const followRouter = Router();
 followRouter.post("/", validateFollowers(followCheck), followerPost);
-followRouter.get("/check",validateFollowers(followCheck),checkFollowers)
+
 followRouter.get("/fans/:userid", followersGet);
+followRouter.get("/check",checkController)
 followRouter.get("/following/:userid", followingGet);
 followRouter.delete("/removefollowing/:userid/:fanid", followingRemove);
 followRouter.get("/top-channels", topChannelsGet);

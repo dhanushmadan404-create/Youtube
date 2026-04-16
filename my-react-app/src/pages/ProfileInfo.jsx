@@ -1,25 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Profile from '../Components/Profile';
 import ProfileVideoContainer from '../Components/ProfileVideoContainer';
 import { getUserById } from '../Redux/Slice/UserSlice';
-import { getFollowers, getFollowing } from '../Redux/Slice/FollowerSlice'; // Removed checkFollowers - doesn't exist
+import { getFollowers, getFollowing ,checkFollowers} from '../Redux/Slice/FollowerSlice'; // Removed checkFollowers - doesn't exist
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 function ProfileInfo() {
-  const location = useLocation();
   const dispatch = useDispatch();
-  
+  const [searchparams]=useSearchParams()
+    const profileUserId =searchparams.get("user_id")
+  console.log(profileUserId)
   const [response, setResponse] = useState(null);
   const [personal, setPersonal] = useState(null);
+
   const [isOwner, setIsOwner] = useState(false); // Renamed from 'status' for clarity
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscripted,setIsSubscribed]=useState()
+  // isSubscripted
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   // FIXED: Get current user ID once
   const currentUserId = localStorage.getItem("userid");
-  const profileUserId = location.state?.User_id;
+
 
   // FIXED: Properly defined check function with useCallback
   const checkSubscriptionStatus = useCallback(async (targetUserId) => {
@@ -62,13 +65,19 @@ function ProfileInfo() {
       try {
         // Fetch user data
         const userData = await dispatch(getUserById({ Id: profileUserId })).unwrap();
+        console.log("start")
+        const check=await dispatch(checkFollowers({body:{user_id:currentUserId,fan_id:profileUserId}}))
+        
+        setIsSubscribed(check.payload)
+        console.log(check)
         setResponse(userData);
         console.log(userData)
         // Set personal info
         setPersonal({
-          name: userData.name,
-          user_id: userData._id,
-          profile: userData.profileImage
+          name: userData.result.name,
+          user_id: userData.result._id,
+          profile: userData.result.profileImage,
+          followers:userData.subscribers
         });
 
         // Fetch subscriber count
@@ -104,15 +113,15 @@ function ProfileInfo() {
   return (
     <div>
       <Profile 
-        data={response} 
-        fuc={isOwner}  // 'fuc' indicates if it's the user's own profile
-        isSubscribed={isSubscribed} 
+        data={response.result}
+        subCount={response.subscribers} 
+        fuc={isOwner}  
+        isSubscribed={isSubscripted} 
         setIsSubscribed={setIsSubscribed}
-        subscriberCount={subscriberCount}
       />
       <ProfileVideoContainer 
         Data={{ 
-          video: response.videos || [], 
+          video: response.result.videos || [], 
           personal: personal, 
           status: isOwner 
         }} 

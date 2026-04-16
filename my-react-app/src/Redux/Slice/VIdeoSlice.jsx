@@ -95,7 +95,7 @@ export const getAllVideo = createAsyncThunk(
   "video/getAll",
   async (_, thunkApi) => {
     try {
-      const response = await videoApi.videoRandom();
+      const response = await videoApi.videoPaginated();
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response?.data || error.message);

@@ -39,18 +39,19 @@ export const getUserByEmail = createAsyncThunk(
     }
   }
 );
-// get user by user_id
-export const getUserById = createAsyncThunk(
-  "user/getById",
-  async ({Id}, thunkApi) => {
-    try {
-      const response = await userApi.getByUserId(Id);
-      return response.data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.response?.data || error.message);
+  // get user by user_id
+  export const getUserById = createAsyncThunk(
+    "user/getById",
+    async ({Id}, thunkApi) => {
+      try {
+        console.log(Id)
+        const response = await userApi.getByUserId(Id);
+        return response.data;
+      } catch (error) {
+        return thunkApi.rejectWithValue(error.response?.data || error.message);
+      }
     }
-  }
-);
+  );
 // login
 export const loginUser = createAsyncThunk(
   "user/login",

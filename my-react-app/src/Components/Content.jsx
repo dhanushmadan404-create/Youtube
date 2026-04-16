@@ -18,12 +18,7 @@ const Content = React.memo(({ item }) => {
 
   const handleProfileClick = () => {
     if (!item.userInfo?._id) return;
-    navigate("/profile", {
-      state: {
-        User_id: item.userInfo._id,
-    
-      }
-    });
+    navigate(`/profile?user_id=${item.userInfo._id}`);
   };
 
   return (

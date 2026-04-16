@@ -176,7 +176,7 @@ function Upload() {
               value={UploadForm.values.Category}
               onChange={UploadForm.handleChange}
               onBlur={UploadForm.handleBlur}
-              style={{color:"black"}}
+              style={{color:"gray"}}
             >
               <option value="">Select a category</option>
               <option value="Education">Education</option>

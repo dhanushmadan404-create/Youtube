@@ -11,7 +11,7 @@ function Channel({ channel }) {
   return (
     <div 
       className='ChannelContainer' 
-      onClick={() => navigate("/profile", { state: { User_id: channel.user_id || channel._id } })}
+      onClick={() => navigate(`/profile?user_id=${channel._id}`)}
       style={{ cursor: 'pointer' }}
     >
       <img 

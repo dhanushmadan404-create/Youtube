@@ -75,7 +75,7 @@ function ProfileVideoContainer({ Data }) {
             <div className="card-info">
               <img 
                 className="channel-avatar" 
-                src={Data.personal.profile} 
+                src={Data?.personal?.profile || ''} 
                 alt="Profile" 
               />
               <div className="details">
@@ -83,7 +83,7 @@ function ProfileVideoContainer({ Data }) {
                   {item.title}
                 </h3>
                 <div className="meta">
-                  <span>{Data.personal.name}</span>
+                  <span>{Data?.personal?.name || 'Unknown'}</span>
                   <span>{item.views || 0} views • {item.category}</span>
                 </div>
               </div>

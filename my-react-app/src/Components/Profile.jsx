@@ -7,7 +7,7 @@ import Btn from './Btn'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-function Profile({ data, fuc, isSubscribed, setIsSubscribed ,subscriberCount}) {
+function Profile({ data,subCount, fuc, isSubscribed, setIsSubscribed }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -47,7 +47,7 @@ function Profile({ data, fuc, isSubscribed, setIsSubscribed ,subscriberCount}) {
             <div className="channel-details">
               <h1>{data.name}</h1>
               <p className="email-text">{data.email}</p>
-              <p className="subscriber-count">{subscriberCount || 0} subscribers</p> {/* ADD THIS */}
+              <p className="subscriber-count">{subCount } subscribers</p> {/* ADD THIS */}
 
               <div className="channel-actions">
                 {!fuc && (

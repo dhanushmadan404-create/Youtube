@@ -22,48 +22,19 @@ export const GetAllVideo = async () => {
   try {
     const DB = await getDb();
 
-    const result = await DB.collection("Video").aggregate([
+      const Result = await DB.collection("Video").aggregate([
+      
       {
-        $lookup: {
-          from: "User",
-          localField: "user_id",
-          foreignField: "_id",
-          as: "userInfo",
-        },
+        $lookup:{
+          from:"User",
+          localField:"user_id",
+          foreignField:"_id",
+          as:"userInfo"
+        }
       },
-      {
-        $unwind: {
-          path: "$userInfo",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-
-      // 🔥 CLEAN RESPONSE
-      {
-        $project: {
-          _id: 1,
-          title: 1,
-          description: 1,
-          video_url: 1,
-          thumbnail: 1,
-          category: 1,
-          restriction: 1,
-          createdAt: 1,
-
-          // user fields (flatten)
-          user: {
-            _id: "$userInfo._id",
-            name: "$userInfo.name",
-            email: "$userInfo.email",
-            profileImage: "$userInfo.profileImage",
-          },
-        },
-      },
-
-   
+      { $unwind:"$userInfo" }
     ]).toArray();
-
-    return result;
+    return Result;
   } catch (err) {
     console.log(err);
     return err;
@@ -74,19 +45,15 @@ export const getFive = async () => {
   try {
     const DB = await getDb();
     const result = await DB.collection("Video").aggregate([
-      // Add a computed field so videos without a 'views' field are treated as 0
       {
         $addFields: {
           views: { $ifNull: ["$views", 0] }
         }
       },
-      // Only include videos that have at least 1 view
       { $match: { views: { $gt: 0 } } },
-      // Sort by most views first
       { $sort: { views: -1 } },
       // Take top 5
       { $limit: 5 },
-      // Join with User collection to get channel info
       {
         $lookup: {
           from: "User",

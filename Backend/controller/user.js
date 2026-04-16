@@ -9,7 +9,7 @@ import {
 import { Hashing, Verify } from "../helper/auth.helper.js";
 import { Generate } from "../helper/jwt.helper.js";
 import { ObjectId } from "mongodb";
-
+import { getFollower } from "../service/followers.js";
 // JWT Verification
 import { VerifyJwt } from "../helper/jwt.helper.js";
 
@@ -55,8 +55,10 @@ export const GetByUser = async (req, res) => {
 export const GetById = async (req, res) => {
   const { id } = req.params;
   const user_id=new ObjectId(id)
+  const followingCount=await getFollower(user_id)
   const result = await GetByUserId(user_id);
-  res.json(result);
+  const output={result:result,subscribers:followingCount}
+  res.json(output);
 };
 // login
 export const Login = async (req, res) => {

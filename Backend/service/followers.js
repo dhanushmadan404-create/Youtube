@@ -1,5 +1,5 @@
 import { getDb } from "../config/db_connect.js";
-
+import { ObjectId } from "mongodb";
 export const postFollowers = async (user_id, fan_id) => {
   const Db = await getDb();
 
@@ -26,15 +26,11 @@ export const postFollowers = async (user_id, fan_id) => {
 };
 export const check = async (user_id,fan_id) => {
   const Db = await getDb();
-  const check = await Db.collection("Followers").findOne({
-    user_id: user_id,
-    fan_id: fan_id,
-  });
-  if (check) {
-  
-
-    return { status: "followed" };
-  }
+const result = await Db.collection("Followers").findOne({
+  user_id: user_id,
+  fan_id: fan_id,
+})
+  return check
   
 };
 export const getFollowers = async (user_id) => {
@@ -55,6 +51,15 @@ export const getFollowers = async (user_id) => {
   return result;
 };
 
+export const getFollower = async (user_id) => {
+  const Db = await getDb();
+
+  const count = await Db.collection("Followers").countDocuments({
+  user_id: user_id,
+});
+
+  return count;
+};
 export const getFollowing = async (user_id) => {
   const Db = await getDb();
   

@@ -5,6 +5,7 @@ const initialState = {
   followerCreate: null,
   followers: null,
   following: null,
+  checkFollowers:false,
   topChannels: [],
   removeFollowers: null,
   isLoading: false,
@@ -25,10 +26,10 @@ export const createFollowers = createAsyncThunk(
 );
 //check
 export const checkFollowers = createAsyncThunk(
-  "followers/getFollowers",
+  "followers/checkFollowers",
   async ({body}, thunkApi) => {
     try {
-      const response = await followersApi.checkFollower(body);
+      const response = await followersApi.checkFollower(body.user_id,body.fan_id);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response?.data || error.message);
@@ -133,6 +134,20 @@ const followersSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload;
       })
+
+        // checkFollowers
+      .addCase(checkFollowers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(checkFollowers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.checkFollowers = action.payload;
+      })
+      .addCase(checkFollowers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+
 
       // remove following states
       .addCase(removeFollowing.pending, (state) => {

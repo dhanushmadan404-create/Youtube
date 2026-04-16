@@ -16,7 +16,6 @@ const CategoryContain = lazy(() => import("../pages/CategoryContainer"));
 const UpdateVideo = lazy(() => import("../pages/UpdateVideo"));
 
 const MainRouter = {
-    //parent "/"    /following
     path: "/",
     element: <Layout />,
     children: [

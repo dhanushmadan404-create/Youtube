@@ -13,7 +13,6 @@ function VdoPlayer() {
   const dispatch = useDispatch()
     const RaVideo = useSelector((state) => state.video.raVideo);
   
-  const recommendedVideos = useSelector((state) => state.video.recommendedVideos)
   const [showComments, setShowComments] = useState(false)
   const [videoData, setVideoData] = useState(location.state || null)
 
@@ -33,14 +32,7 @@ function VdoPlayer() {
         sessionStorage.setItem('viewedVideos', JSON.stringify(viewedVideos));
       }
 
-      // Fetch recommended videos
-      if (data.item?.category) {
-        dispatch(getRecommendedVideos({
-          videoId: data.item._id,
-          category: data.item.category,
-          title: data.item.title
-        }));
-      }
+     
     }
   }
 }, [location.state, dispatch]);
